@@ -1,13 +1,18 @@
 #ifndef FT_LS_H
 # define FT_LS_H
 
+# include <time.h>
+# include <stdio.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
 # include <dirent.h>
+# include <pwd.h>
+# include <grp.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <errno.h>
+# include <err.h>
 # include "../libft/libft.h"
 
 typedef struct s_args
@@ -22,29 +27,31 @@ typedef struct s_args
 
 typedef struct s_file
 {
-  char *name;
   char *path_name;
-  struct stat* stat;
+  char *stat_path;
+  struct stat *stat;
+  struct s_file *next;
 } File;
 
 typedef struct s_file_info
 {
   char *path_name;
-  char *name;
-  int read_permission;
-  int write_permission;
-  int exec_permission;
-  int size;
+  char *stat_path;
+  int file_mode;
+  int owner_permission;
+  int group_permission;
+  int others_permission;
+  int bytes;
   int num_of_block;
-  int modified_date;
-  int created_date;
   int num_of_hard_link;
+  char *modified_date;
   char *owner_name;
   char *group_name;
 } FileInfo;
 
 Args *parse_args(int argc, char **argv);
 char **sort_paths(char **paths, bool t, bool r);
+void exec_ls(char *path, Args *args);
 
 // debugger
 void print_args(Args *args);

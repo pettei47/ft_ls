@@ -18,6 +18,10 @@ int main(int argc, char** argv) {
   ft_putstrs_fd(sorted_paths, "\n", 1);
   ft_putendl_fd("", 1);
 
+  for (int i = 0; sorted_paths[i]; i++) {
+    exec_ls(sorted_paths[i], args);
+  }
+
   // free
   for (int i = 0; sorted_paths[i]; i++) {
     free(sorted_paths[i]);
