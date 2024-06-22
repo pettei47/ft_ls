@@ -50,6 +50,7 @@ typedef struct s_file_info
 Args *parse_args(int argc, char **argv);
 char **sort_paths(char **paths, bool t, bool r);
 void exec_ls(char *path, Args *args, bool print_path);
+FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r);
 
 // debugger
 void print_args(Args *args);

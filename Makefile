@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/06/23 02:31:15 by teppei           ###   ########.fr        #
+#    Updated: 2024/06/23 05:56:22 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS		:=	main.c \
 						parse_args.c \
 						sort_paths.c \
 						exec_ls.c \
+						sort_infos.c \
 						debugger/print_args.c \
 
 OBJDIR		=	obj

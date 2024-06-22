@@ -118,31 +118,14 @@ void  exec_ls(char *path, Args *args, bool print_path) {
   }
 
   // sort infos
-  if (args->order_by_modified_time) {
-    ft_putendl_fd("変更時刻順に並び替える", 1);
-  }
-  else { // ordered by ascii
-    for (int i = 0; i < len - 1; i++) {
-      for (int j = i + 1; j < len; j++) {
-        if (ft_strcmp(infos[i]->path_name, infos[j]->path_name) > 0) {
-          FileInfo *tmp = infos[j];
-          infos[j] = infos[i];
-          infos[i] = tmp;
-        }
-      }
-    }
-  }
-
-  if (args->reverse) {
-    ft_putendl_fd("逆順に並び替える", 1);
-  }
+  FileInfo **sorted_infos = sort_infos(infos, len, args->order_by_modified_time, args->reverse);
 
   // 出力する
   if (print_path) {
     ft_putstr_fd(path, 1);
     ft_putendl_fd(":", 1);
   }
-  print_file_info(infos, args->long_style, args->show_hidden);
+  print_file_info(sorted_infos, args->long_style, args->show_hidden);
 
   // 再帰的に実行
   if (args->recursive) {
