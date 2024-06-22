@@ -2,9 +2,6 @@
 
 int main(int argc, char** argv) {
   // parse args
-  (void)argc;
-  (void)argv;
-  // get file blob
   Args* args = parse_args(argc, argv);
   if(!args->paths) {
     return 1;
@@ -12,10 +9,13 @@ int main(int argc, char** argv) {
 
   print_args(args);
 
+  // get file blob
+
+
   // set file info to struct
 
+
   // print
-  // write(1, "hello world\n", 12);
 
   // free
   free(args->paths);
