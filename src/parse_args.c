@@ -10,7 +10,7 @@ Args* parse_args(int argc, char** argv) {
   parsed_args->show_hidden = false;
   if (argc == 1) {
     parsed_args->paths = (char **)malloc(sizeof(char *));
-    parsed_args->paths[0] = "./";
+    parsed_args->paths[0] = ft_strdup("./");
     return parsed_args;
   }
 
@@ -48,6 +48,12 @@ Args* parse_args(int argc, char** argv) {
       }
       ++count_paths;
     }
+  }
+
+  if (count_paths == 0) {
+    parsed_args->paths = (char **)malloc(sizeof(char *));
+    parsed_args->paths[0] = ft_strdup("./");
+    return parsed_args;
   }
 
   parsed_args->paths = (char **)malloc((sizeof(char *) * count_paths) + 1);
