@@ -26,7 +26,6 @@ FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
   }
 
   if (r) {
-    ft_putendl_fd("逆順に並び替える", 1);
     FileInfo **reversed_infos = (FileInfo **)malloc((sizeof(FileInfo) * len) + 1);
     reversed_infos[len] = NULL;
 
