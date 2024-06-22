@@ -139,6 +139,9 @@ void  exec_ls(char *path, Args *args, bool print_path) {
           ft_strcmp(sorted_infos[i]->path_name, "..") == 0 ) {
         continue;
       }
+      if (!args->show_hidden && sorted_infos[i]->path_name[0] == '.') {
+        continue;
+      }
       exec_ls(sorted_infos[i]->stat_path, args, true);
     }
   }
