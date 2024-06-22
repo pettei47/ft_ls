@@ -129,9 +129,17 @@ void  exec_ls(char *path, Args *args, bool print_path) {
 
   // 再帰的に実行
   if (args->recursive) {
-    // loop head
-    //   exec_ls(stat_path, args);
-    return;
+    for (int i = 0; sorted_infos[i]; i++) {
+      // directoryかどうかを判定
+      if (sorted_infos[i]->file_mode != S_IFDIR) {
+        continue;
+      }
+      if (ft_strcmp(sorted_infos[i]->path_name, ".") == 0 ||
+          ft_strcmp(sorted_infos[i]->path_name, "..") == 0 ) {
+        continue;
+      }
+      exec_ls(sorted_infos[i]->stat_path, args, true);
+    }
   }
 
   // free
