@@ -1,29 +1,41 @@
 #include "ft_ls.h"
 
-bool is_directory(struct stat *st) {
-  return (st->st_mode & S_IFMT) == S_IFDIR;
+char *convert_permission(int mode) {
+  char *permission = ft_strdup("---------");
+  if (mode & S_IRUSR) permission[0] = 'r';
+  if (mode & S_IWUSR) permission[1] = 'w';
+  if (mode & S_IXUSR) permission[2] = 'x';
+  if (mode & S_IRGRP) permission[3] = 'r';
+  if (mode & S_IWGRP) permission[4] = 'w';
+  if (mode & S_IXGRP) permission[5] = 'x';
+  if (mode & S_IROTH) permission[6] = 'r';
+  if (mode & S_IWOTH) permission[7] = 'w';
+  if (mode & S_IXOTH) permission[8] = 'x';
+  return permission;
 }
 
-void  print_files(File *f) {
-  File *current = f->next;
-  while (current) {
-    char *is_dir = is_directory(current->stat) ? "d " : "- ";
-    ft_putstr_fd(is_dir, 1);
-    ft_putendl_fd(current->path_name, 1);
-    // printf("デバイスID : %d\n",current->stat->st_dev);
-    // printf("inode番号 : %llu\n",current->stat->st_ino);
-    // printf("アクセス保護 : %o\n",current->stat->st_mode);
-    // printf("ハードリンクの数 : %d\n",current->stat->st_nlink);
-    // printf("所有者のユーザID : %d\n",current->stat->st_uid);
-    // printf("所有者のグループID : %d\n",current->stat->st_gid);
-    // printf("デバイスID(特殊ファイルの場合) : %d\n",current->stat->st_rdev);
-    // printf("容量(バイト単位) : %lld\n",current->stat->st_size);
-    // printf("ファイルシステムのブロックサイズ : %d\n",current->stat->st_blksize);
-    // printf("割り当てられたブロック数 : %lld\n",current->stat->st_blocks);
-    // printf("最終アクセス時刻 : %s",ctime(&current->stat->st_atime));
-    // printf("最終修正時刻 : %s",ctime(&current->stat->st_mtime));
-    // printf("最終状態変更時刻 : %s",ctime(&current->stat->st_ctime));
-    current = current->next;
+void  print_file_info(FileInfo **infos, bool long_style) {
+  // total
+
+
+  for (int i = 0; infos[i]; i++) {
+    if (long_style) {
+      ft_putstr_fd(infos[i]->file_mode == S_IFDIR ? "d"
+                  : infos[i]->file_mode == S_IFLNK ? "l" : "-", 1);
+      ft_putstr_fd(infos[i]->permission, 1);
+      ft_putstr_fd(" ", 1);
+      ft_putnbr_fd(infos[i]->num_of_hard_link, 1);
+      ft_putstr_fd(" ", 1);
+      ft_putstr_fd(infos[i]->owner_name, 1);
+      ft_putstr_fd(" ", 1);
+      ft_putstr_fd(infos[i]->group_name, 1);
+      ft_putstr_fd(" ", 1);
+      ft_putnbr_fd(infos[i]->bytes, 1);
+      ft_putstr_fd(" ", 1);
+      ft_putstr_fd(infos[i]->modified_date, 1);
+      ft_putstr_fd(" ", 1);
+    }
+    ft_putendl_fd(infos[i]->path_name, 1);
   }
 }
 
@@ -67,29 +79,23 @@ void  exec_ls(char *path, Args *args) {
     ++len;
     f = f->next;
   }
-  printf("len: %d\n", len);
 
   FileInfo **infos = (FileInfo **)malloc((sizeof(FileInfo) * len) + 1);
   infos[len] = NULL;
 
   File *c = head->next;
-  for (int i = 0; infos[i]; i++) {
-    FileInfo *info = (FileInfo *)malloc(sizeof(FileInfo));
-
-    info->path_name = ft_strdup(c->path_name);
-    info->stat_path = ft_strdup(c->stat_path);
-    info->file_mode = c->stat->st_mode & S_IFMT;
-    info->owner_permission = (c->stat->st_mode / 100) % 10;
-    info->others_permission = (c->stat->st_mode / 10) % 10;
-    info->others_permission = c->stat->st_mode % 10;
-    info->bytes = c->stat->st_size;
-    info->num_of_block = c->stat->st_blocks;
-    info->num_of_hard_link = c->stat->st_nlink;
-    info->modified_date = ft_strdup(ctime(&c->stat->st_mtime));
-    info->group_name = ft_strdup(getgrgid(c->stat->st_gid)->gr_name);
-    info->owner_name = ft_strdup(getpwuid(c->stat->st_uid)->pw_name);
-
-    infos[i] = info;
+  for (int i = 0; i < len; i++) {
+    infos[i] = (FileInfo *)malloc(sizeof(FileInfo));
+    infos[i]->path_name = ft_strdup(c->path_name);
+    infos[i]->stat_path = ft_strdup(c->stat_path);
+    infos[i]->file_mode = c->stat->st_mode & S_IFMT;
+    infos[i]->permission = convert_permission(c->stat->st_mode);
+    infos[i]->bytes = c->stat->st_size;
+    infos[i]->num_of_block = c->stat->st_blocks;
+    infos[i]->num_of_hard_link = c->stat->st_nlink;
+    infos[i]->modified_date = ft_strdup(ctime(&c->stat->st_mtime));
+    infos[i]->group_name = ft_strdup(getgrgid(c->stat->st_gid)->gr_name);
+    infos[i]->owner_name = ft_strdup(getpwuid(c->stat->st_uid)->pw_name);
     c = c->next;
   }
 
@@ -99,11 +105,15 @@ void  exec_ls(char *path, Args *args) {
   }
   else { // ordered by ascii
     ft_putendl_fd("ASCII順に並び替える", 1);
-    // for (int i = 0; i < len - 1; i++) {
-    //   for (int j = len - 1; j > i; j--) {
-
-    //   }
-    // }
+    for (int i = 0; i < len - 1; i++) {
+      for (int j = i + 1; j < len; j++) {
+        if (ft_strcmp(infos[i]->path_name, infos[j]->path_name) > 0) {
+          FileInfo *tmp = infos[j];
+          infos[j] = infos[i];
+          infos[i] = tmp;
+        }
+      }
+    }
   }
 
   if (args->reverse) {
@@ -111,7 +121,7 @@ void  exec_ls(char *path, Args *args) {
   }
 
   // 出力する
-  print_files(head);
+  print_file_info(infos, args->long_style);
 
   // 再帰的に実行
   if (args->recursive) {

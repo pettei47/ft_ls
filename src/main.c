@@ -7,16 +7,11 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  print_args(args);
-
   char **sorted_paths = sort_paths(
     args->paths,
     args->order_by_modified_time,
     args->reverse
   );
-
-  ft_putstrs_fd(sorted_paths, "\n", 1);
-  ft_putendl_fd("", 1);
 
   for (int i = 0; sorted_paths[i]; i++) {
     exec_ls(sorted_paths[i], args);

@@ -38,9 +38,7 @@ typedef struct s_file_info
   char *path_name;
   char *stat_path;
   int file_mode;
-  int owner_permission;
-  int group_permission;
-  int others_permission;
+  char *permission;
   int bytes;
   int num_of_block;
   int num_of_hard_link;
