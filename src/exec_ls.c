@@ -14,10 +14,13 @@ char *convert_permission(int mode) {
   return permission;
 }
 
-void  print_file_info(FileInfo **infos, bool long_style) {
+void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
   if (long_style) {
     int total_block = 0;
     for (int i = 0; infos[i]; i++) {
+      if (infos[i]->path_name[0] == '.' && !show_hidden) {
+        continue;
+      }
       total_block += infos[i]->num_of_block;
     }
     ft_putstr_fd("total ", 1);
@@ -26,6 +29,9 @@ void  print_file_info(FileInfo **infos, bool long_style) {
   }
 
   for (int i = 0; infos[i]; i++) {
+    if (infos[i]->path_name[0] == '.' && !show_hidden) {
+      continue;
+    }
     if (long_style) {
       ft_putstr_fd(infos[i]->file_mode == S_IFDIR ? "d"
                   : infos[i]->file_mode == S_IFLNK ? "l" : "-", 1);
@@ -67,7 +73,7 @@ void  exec_ls(char *path, Args *args, bool print_path) {
     struct stat *st = (struct stat *)malloc(sizeof(struct stat));
     File *f = (File *)malloc(sizeof(File));
 
-    f->path_name = ent->d_name;
+    f->path_name = ft_strdup(ent->d_name);
 
     f->stat_path = get_stat_path(path, ent->d_name);
     lstat(f->stat_path, st);
@@ -94,7 +100,9 @@ void  exec_ls(char *path, Args *args, bool print_path) {
   for (int i = 0; i < len; i++) {
     infos[i] = (FileInfo *)malloc(sizeof(FileInfo));
     infos[i]->path_name = ft_strdup(c->path_name);
+    free(c->path_name);
     infos[i]->stat_path = ft_strdup(c->stat_path);
+    free(c->stat_path);
     infos[i]->file_mode = c->stat->st_mode & S_IFMT;
     infos[i]->permission = convert_permission(c->stat->st_mode);
     infos[i]->bytes = c->stat->st_size;
@@ -103,7 +111,10 @@ void  exec_ls(char *path, Args *args, bool print_path) {
     infos[i]->modified_date = ft_strdup(ctime(&c->stat->st_mtime));
     infos[i]->group_name = ft_strdup(getgrgid(c->stat->st_gid)->gr_name);
     infos[i]->owner_name = ft_strdup(getpwuid(c->stat->st_uid)->pw_name);
+    free(c->stat);
+    File *tmp = c;
     c = c->next;
+    free(tmp);
   }
 
   // sort infos
@@ -128,9 +139,10 @@ void  exec_ls(char *path, Args *args, bool print_path) {
 
   // 出力する
   if (print_path) {
-    ft_putendl_fd(path, 1);
+    ft_putstr_fd(path, 1);
+    ft_putendl_fd(":", 1);
   }
-  print_file_info(infos, args->long_style);
+  print_file_info(infos, args->long_style, args->show_hidden);
 
   // 再帰的に実行
   if (args->recursive) {
