@@ -18,7 +18,13 @@ int mt_cmp(char *s1, char *s2) {
 
   stat(s1, &st1);
   stat(s2, &st2);
-  return (&st1.st_mtimespec - &st2.st_mtimespec);
+  int diff_tv_sec = &st1.st_mtimespec.tv_sec - &st2.st_mtimespec.tv_sec;
+  int diff_tv_nsec = &st1.st_mtimespec.tv_nsec - &st2.st_mtimespec.tv_nsec;
+
+  if (diff_tv_sec != 0) {
+    return diff_tv_sec;
+  }
+  return diff_tv_nsec;
 }
 
 char **sort_paths(char **paths, bool t, bool r) {
@@ -44,7 +50,7 @@ char **sort_paths(char **paths, bool t, bool r) {
     // tがあれば更新時間順
     for (int i = 0; i < len - 1; i++) {
       for (int j = i + 1; j < len; j++) {
-        if (mt_cmp(paths[i], paths[j]) > 0) {
+        if (mt_cmp(paths[i], paths[j]) < 0) {
           char *tmp = paths[j];
           paths[j] = paths[i];
           paths[i] = tmp;

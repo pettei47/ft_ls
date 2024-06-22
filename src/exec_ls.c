@@ -14,6 +14,11 @@ char *convert_permission(int mode) {
   return permission;
 }
 
+void print_time(struct timespec time) {
+  ft_putnbr_fd(time.tv_sec, 1);
+  ft_putnbr_fd(time.tv_nsec, 1);
+}
+
 void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
   if (long_style) {
     int total_block = 0;
@@ -45,7 +50,7 @@ void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
       ft_putstr_fd(" ", 1);
       ft_putnbr_fd(infos[i]->bytes, 1);
       ft_putstr_fd(" ", 1);
-      ft_putstr_fd(infos[i]->modified_date, 1);
+      print_time(infos[i]->modified_date);
       ft_putstr_fd(" ", 1);
     }
     ft_putendl_fd(infos[i]->path_name, 1);
@@ -108,7 +113,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     infos[i]->bytes = c->stat->st_size;
     infos[i]->num_of_block = c->stat->st_blocks;
     infos[i]->num_of_hard_link = c->stat->st_nlink;
-    infos[i]->modified_date = ft_strdup(ctime(&c->stat->st_mtime));
+    infos[i]->modified_date = c->stat->st_mtimespec;
     infos[i]->group_name = ft_strdup(getgrgid(c->stat->st_gid)->gr_name);
     infos[i]->owner_name = ft_strdup(getpwuid(c->stat->st_uid)->pw_name);
     free(c->stat);
@@ -153,7 +158,6 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
   for (int i = 0; sorted_infos[i]; i++) {
     free(sorted_infos[i]->group_name);
     free(sorted_infos[i]->owner_name);
-    free(sorted_infos[i]->modified_date);
     free(sorted_infos[i]->path_name);
     free(sorted_infos[i]->stat_path);
     free(sorted_infos[i]->permission);

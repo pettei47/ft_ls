@@ -1,22 +1,29 @@
 #include "ft_ls.h"
 
+int mtime_cmp(struct timespec time1, struct timespec time2) {
+  int diff_tv_sec = time1.tv_sec - time2.tv_sec;
+  int diff_tv_nsec = time1.tv_nsec - time2.tv_nsec;
+
+  if (diff_tv_sec != 0) {
+    return diff_tv_sec;
+  }
+  return diff_tv_nsec;
+}
+
 FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
-  if (t) {
-    for (int i = 0; i < len - 1; i++) {
-      for (int j = i + 1; j < len; j++) {
-        // TODO: 日付を文字列で比較してるので微妙。直したい。
-        if (ft_strcmp(infos[i]->modified_date, infos[j]->modified_date) < 0) {
-          FileInfo *tmp = infos[j];
-          infos[j] = infos[i];
-          infos[i] = tmp;
-        }
+  for (int i = 0; i < len - 1; i++) {
+    for (int j = i + 1; j < len; j++) {
+      if (ft_strcmp(infos[i]->path_name, infos[j]->path_name) > 0) {
+        FileInfo *tmp = infos[j];
+        infos[j] = infos[i];
+        infos[i] = tmp;
       }
     }
   }
-  else { // ordered by ascii
+  if (t) {
     for (int i = 0; i < len - 1; i++) {
       for (int j = i + 1; j < len; j++) {
-        if (ft_strcmp(infos[i]->path_name, infos[j]->path_name) > 0) {
+        if (mtime_cmp(infos[i]->modified_date, infos[j]->modified_date) < 0) {
           FileInfo *tmp = infos[j];
           infos[j] = infos[i];
           infos[i] = tmp;
@@ -45,8 +52,7 @@ FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
       free(infos[j]->owner_name);
       reversed_infos[i]->group_name = ft_strdup(infos[j]->group_name);
       free(infos[j]->group_name);
-      reversed_infos[i]->modified_date = ft_strdup(infos[j]->modified_date);
-      free(infos[j]->modified_date);
+      reversed_infos[i]->modified_date = infos[j]->modified_date;
       reversed_infos[i]->num_of_block = infos[j]->num_of_block;
       reversed_infos[i]->num_of_hard_link = infos[j]->num_of_hard_link;
 
