@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
   }
 
   for (int i = 0; sorted_paths[i]; i++) {
-    exec_ls(sorted_paths[i], args, paths_count > 1);
+    exec_ls(sorted_paths[i], args, paths_count > 1, i > 0);
   }
 
   // free

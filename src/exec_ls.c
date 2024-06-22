@@ -59,7 +59,7 @@ char *get_stat_path(char *path, char *name) {
   return stat_path;
 }
 
-void  exec_ls(char *path, Args *args, bool print_path) {
+void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
   DIR *dp = opendir(path);
 
   File *head = (File *)malloc(sizeof(File));
@@ -123,6 +123,9 @@ void  exec_ls(char *path, Args *args, bool print_path) {
 
   // 出力する
   if (print_path) {
+    if (endline) {
+      ft_putendl_fd("", 1);
+    }
     ft_putstr_fd(path, 1);
     ft_putendl_fd(":", 1);
   }
@@ -142,7 +145,7 @@ void  exec_ls(char *path, Args *args, bool print_path) {
       if (!args->show_hidden && sorted_infos[i]->path_name[0] == '.') {
         continue;
       }
-      exec_ls(sorted_infos[i]->stat_path, args, true);
+      exec_ls(sorted_infos[i]->stat_path, args, true, true);
     }
   }
 
