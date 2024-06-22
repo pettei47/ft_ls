@@ -23,6 +23,5 @@ int main(int argc, char** argv) {
     free(sorted_paths[i]);
   }
   free(sorted_paths);
-  // free(args->paths);
-  // free(args);
+  free(args);
 }
