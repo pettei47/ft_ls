@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/06/22 16:40:24 by teppei           ###   ########.fr        #
+#    Updated: 2024/06/22 17:37:41 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,17 +19,23 @@ OBJDIR		=	obj
 OBJS		=	$(SRCS:%.c=$(OBJDIR)/%.o)
 HEAD		=	./incs
 INCS		=	-I./incs
+LINK		=	-L./libft
+LIBS		=	-lft
+L_FT		=	libft/libft.a
 
 all: $(OBJDIR) $(NAME)
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
 
-$(NAME): $(OBJS) $(MOBJS)
+$(NAME): $(OBJS) $(L_FT)
 	$(CC) -o $@ $^ $(LINK) $(LIBS)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
+
+$(L_FT):
+	@make -C libft
 
 clean:
 	rm -f $(OBJS) $(MOBJS) */*.gch
