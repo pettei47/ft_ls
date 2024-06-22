@@ -15,8 +15,15 @@ char *convert_permission(int mode) {
 }
 
 void  print_file_info(FileInfo **infos, bool long_style) {
-  // total
-
+  if (long_style) {
+    int total_block = 0;
+    for (int i = 0; infos[i]; i++) {
+      total_block += infos[i]->num_of_block;
+    }
+    ft_putstr_fd("total ", 1);
+    ft_putnbr_fd(total_block, 1);
+    ft_putendl_fd("", 1);
+  }
 
   for (int i = 0; infos[i]; i++) {
     if (long_style) {
