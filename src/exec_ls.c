@@ -116,6 +116,7 @@ void  exec_ls(char *path, Args *args, bool print_path) {
     c = c->next;
     free(tmp);
   }
+  free(head);
 
   // sort infos
   FileInfo **sorted_infos = sort_infos(infos, len, args->order_by_modified_time, args->reverse);
@@ -143,5 +144,14 @@ void  exec_ls(char *path, Args *args, bool print_path) {
   }
 
   // free
-
+  for (int i = 0; sorted_infos[i]; i++) {
+    free(sorted_infos[i]->group_name);
+    free(sorted_infos[i]->owner_name);
+    free(sorted_infos[i]->modified_date);
+    free(sorted_infos[i]->path_name);
+    free(sorted_infos[i]->stat_path);
+    free(sorted_infos[i]->permission);
+    free(sorted_infos[i]);
+  }
+  free(sorted_infos);
 }
