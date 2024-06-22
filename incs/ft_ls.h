@@ -4,6 +4,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include "../libft/libft.h"
 
 typedef struct s_args
 {
@@ -36,5 +37,10 @@ typedef struct s_file_info
   char *owner_name;
   char *group_name;
 } FileInfo;
+
+Args* parse_args(int argc, char **argv);
+
+// debugger
+void print_args(Args *args);
 
 #endif
