@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/06/22 18:50:43 by teppei           ###   ########.fr        #
+#    Updated: 2024/06/23 01:51:39 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ CFLAGS	=	-Wall -Wextra -Werror -g
 SRCDIR	=	src
 SRCS		:=	main.c \
 						parse_args.c \
+						sort_paths.c \
 						debugger/print_args.c \
 
 OBJDIR		=	obj

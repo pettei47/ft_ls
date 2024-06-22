@@ -4,6 +4,10 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdbool.h>
+# include <dirent.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <errno.h>
 # include "../libft/libft.h"
 
 typedef struct s_args
@@ -16,7 +20,8 @@ typedef struct s_args
   bool show_hidden;
 } Args;
 
-typedef struct s_file {
+typedef struct s_file
+{
   char *name;
   char *path_name;
   struct stat* stat;
@@ -38,7 +43,8 @@ typedef struct s_file_info
   char *group_name;
 } FileInfo;
 
-Args* parse_args(int argc, char **argv);
+Args *parse_args(int argc, char **argv);
+char **sort_paths(char **paths, bool t, bool r);
 
 // debugger
 void print_args(Args *args);
