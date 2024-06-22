@@ -41,12 +41,6 @@ Args* parse_args(int argc, char** argv) {
       if (ft_strchr(arg, 'R')) {
         parsed_args->recursive = true;
       }
-      for (int i = 1; arg[1]; i++) {
-        if(!ft_strchr("ltraR", arg[i])) {
-          parsed_args->paths = NULL;
-          return parsed_args;
-        }
-      }
     } else {
       acceptable_options = false;
       if (start_path_number == 0) {
