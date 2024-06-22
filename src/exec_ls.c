@@ -53,7 +53,7 @@ char *get_stat_path(char *path, char *name) {
   return stat_path;
 }
 
-void  exec_ls(char *path, Args *args) {
+void  exec_ls(char *path, Args *args, bool print_path) {
   DIR *dp = opendir(path);
 
   File *head = (File *)malloc(sizeof(File));
@@ -111,7 +111,6 @@ void  exec_ls(char *path, Args *args) {
     ft_putendl_fd("変更時刻順に並び替える", 1);
   }
   else { // ordered by ascii
-    ft_putendl_fd("ASCII順に並び替える", 1);
     for (int i = 0; i < len - 1; i++) {
       for (int j = i + 1; j < len; j++) {
         if (ft_strcmp(infos[i]->path_name, infos[j]->path_name) > 0) {
@@ -128,6 +127,9 @@ void  exec_ls(char *path, Args *args) {
   }
 
   // 出力する
+  if (print_path) {
+    ft_putendl_fd(path, 1);
+  }
   print_file_info(infos, args->long_style);
 
   // 再帰的に実行

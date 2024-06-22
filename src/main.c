@@ -8,13 +8,17 @@ int main(int argc, char** argv) {
   }
 
   char **sorted_paths = sort_paths(
-    args->paths,
-    args->order_by_modified_time,
-    args->reverse
-  );
+      args->paths,
+      args->order_by_modified_time,
+      args->reverse);
+
+  int paths_count = 0;
+  for (int i = 0; sorted_paths[i]; i++) {
+    ++paths_count;
+  }
 
   for (int i = 0; sorted_paths[i]; i++) {
-    exec_ls(sorted_paths[i], args);
+    exec_ls(sorted_paths[i], args, paths_count > 1);
   }
 
   // free
