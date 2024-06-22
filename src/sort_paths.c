@@ -29,22 +29,21 @@ char **sort_paths(char **paths, bool t, bool r) {
   char **sorted_paths = (char **)malloc((sizeof(char *) * len) + 1);
   sorted_paths[len] = NULL;
 
+  // tがなければascii順
+  for (int i = 0; i < len - 1; i++) {
+    for (int j = i + 1; j < len; j++) {
+      if (ft_strcmp(paths[i], paths[j]) > 0) {
+        char *tmp = paths[j];
+        paths[j] = paths[i];
+        paths[i] = tmp;
+      }
+    }
+  }
   if (t) {
     // tがあれば更新時間順
     for (int i = 0; i < len - 1; i++) {
       for (int j = i + 1; j < len; j++) {
         if (mt_cmp(paths[i], paths[j]) > 0) {
-          char *tmp = paths[j];
-          paths[j] = paths[i];
-          paths[i] = tmp;
-        }
-      }
-    }
-  } else {
-    // tがなければascii順
-    for (int i = 0; i < len - 1; i++) {
-      for (int j = i + 1; j < len; j++) {
-        if (ft_strcmp(paths[i], paths[j]) > 0) {
           char *tmp = paths[j];
           paths[j] = paths[i];
           paths[i] = tmp;
