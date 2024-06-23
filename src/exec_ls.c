@@ -14,9 +14,25 @@ char *convert_permission(int mode) {
   return permission;
 }
 
-void print_time(struct timespec time) {
-  ft_putnbr_fd(time.tv_sec, 1);
-  ft_putnbr_fd(time.tv_nsec, 1);
+void print_time(time_t ftime)
+{
+	int i;
+	char *long_string;
+
+	long_string = ctime(&ftime);
+	for (i = 4; i < 11; ++i)
+		ft_putchar_fd(long_string[i], 1);
+
+  int six_months = ((365 / 2) * 86400);
+  if (ftime + six_months > time(NULL))
+    for (i = 11; i < 16; ++i)
+			ft_putchar_fd(long_string[i], 1);
+	else {
+		ft_putchar_fd(' ', 1);
+		for (i = 20; i < 24; ++i)
+			ft_putchar_fd(long_string[i], 1);
+	}
+	ft_putchar_fd(' ', 1);
 }
 
 void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
@@ -50,7 +66,7 @@ void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
       ft_putstr_fd(" ", 1);
       ft_putnbr_fd(infos[i]->bytes, 1);
       ft_putstr_fd(" ", 1);
-      print_time(infos[i]->modified_mtimespec);
+      print_time(infos[i]->modified_date);
       ft_putstr_fd(" ", 1);
     }
     ft_putendl_fd(infos[i]->path_name, 1);
@@ -63,6 +79,7 @@ char *get_stat_path(char *path, char *name) {
   free(dir_path);
   return stat_path;
 }
+
 
 void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
   DIR *dp = opendir(path);
@@ -114,6 +131,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     infos[i]->num_of_block = c->stat->st_blocks;
     infos[i]->num_of_hard_link = c->stat->st_nlink;
     infos[i]->modified_mtimespec = c->stat->st_mtimespec;
+    infos[i]->modified_date = c->stat->st_mtime;
     infos[i]->group_name = ft_strdup(getgrgid(c->stat->st_gid)->gr_name);
     infos[i]->owner_name = ft_strdup(getpwuid(c->stat->st_uid)->pw_name);
     free(c->stat);
