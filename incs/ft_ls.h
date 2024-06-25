@@ -11,6 +11,7 @@
 # include <grp.h>
 # include <sys/types.h>
 # include <sys/stat.h>
+#include <sys/param.h>
 # include <errno.h>
 # include <err.h>
 # include "../libft/libft.h"
@@ -52,6 +53,10 @@ Args *parse_args(int argc, char **argv);
 char **sort_paths(char **paths, bool t, bool r);
 void exec_ls(char *path, Args *args, bool print_path, bool endline);
 FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r);
+
+// utils
+void print_align_left(char *str, int width);
+void print_align_right_number(int num, int width);
 
 // debugger
 void print_args(Args *args);

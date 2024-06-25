@@ -32,7 +32,10 @@ void print_time(time_t ftime)
 		for (i = 20; i < 24; ++i)
 			ft_putchar_fd(long_string[i], 1);
 	}
-	ft_putchar_fd(' ', 1);
+}
+
+int max(int a, int b) {
+  return a > b ? a : b;
 }
 
 void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
@@ -49,6 +52,20 @@ void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
     ft_putendl_fd("", 1);
   }
 
+  int max_num_of_hard_link = 0;
+  int max_user_name_len = 0;
+  int max_group_name_len = 0;
+  int max_bytes_len = 0;
+  for (int i = 0; infos[i]; i++) {
+    if (infos[i]->path_name[0] == '.' && !show_hidden) {
+      continue;
+    }
+    max_num_of_hard_link = max(max_num_of_hard_link, ft_strlen(ft_itoa(infos[i]->num_of_hard_link)));
+    max_user_name_len = max(max_user_name_len, ft_strlen(infos[i]->owner_name));
+    max_group_name_len = max(max_group_name_len, ft_strlen(infos[i]->group_name));
+    max_bytes_len = max(max_bytes_len, ft_strlen(ft_itoa(infos[i]->bytes)));
+  }
+
   for (int i = 0; infos[i]; i++) {
     if (infos[i]->path_name[0] == '.' && !show_hidden) {
       continue;
@@ -58,13 +75,13 @@ void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
                   : infos[i]->file_mode == S_IFLNK ? "l" : "-", 1);
       ft_putstr_fd(infos[i]->permission, 1);
       ft_putstr_fd(" ", 1);
-      ft_putnbr_fd(infos[i]->num_of_hard_link, 1);
+      print_align_right_number(infos[i]->num_of_hard_link, max_num_of_hard_link + 1);
       ft_putstr_fd(" ", 1);
-      ft_putstr_fd(infos[i]->owner_name, 1);
+      print_align_left(infos[i]->owner_name, max_user_name_len + 1);
       ft_putstr_fd(" ", 1);
-      ft_putstr_fd(infos[i]->group_name, 1);
+      print_align_left(infos[i]->group_name, max_group_name_len + 1);
       ft_putstr_fd(" ", 1);
-      ft_putnbr_fd(infos[i]->bytes, 1);
+      print_align_right_number(infos[i]->bytes, max_bytes_len);
       ft_putstr_fd(" ", 1);
       print_time(infos[i]->modified_date);
       ft_putstr_fd(" ", 1);
