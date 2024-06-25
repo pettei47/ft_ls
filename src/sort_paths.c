@@ -8,6 +8,7 @@ char **reverse_paths(char **paths, int len) {
     reversed_paths[i] = ft_strdup(paths[len - i - 1]);
     free(paths[len - i - 1]);
   }
+  free(paths[len]);
   free(paths);
   return reversed_paths;
 }
@@ -61,9 +62,7 @@ char **sort_paths(char **paths, bool t, bool r) {
 
   for (int i = 0; paths[i]; i++) {
     sorted_paths[i] = ft_strdup(paths[i]);
-    free(paths[i]);
   }
-  free(paths);
 
   if (r) {
     return reverse_paths(sorted_paths, len);

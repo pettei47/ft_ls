@@ -8,11 +8,6 @@ Args* parse_args(int argc, char** argv) {
   parsed_args->recursive = false;
   parsed_args->reverse = false;
   parsed_args->show_hidden = false;
-  if (argc == 1) {
-    parsed_args->paths = (char **)malloc(sizeof(char *));
-    parsed_args->paths[0] = ft_strdup(".");
-    return parsed_args;
-  }
 
   bool acceptable_options = true;
   int count_paths = 0;
@@ -57,13 +52,14 @@ Args* parse_args(int argc, char** argv) {
   }
 
   if (count_paths == 0) {
-    parsed_args->paths = (char **)malloc(sizeof(char *));
+    parsed_args->paths = (char **)malloc(sizeof(char *) + 1);
     parsed_args->paths[0] = ft_strdup(".");
+    parsed_args->paths[1] = NULL;
     return parsed_args;
   }
 
   parsed_args->paths = (char **)malloc((sizeof(char *) * count_paths) + 1);
-  for (int i = start_path_number; argv[i]; i++) {
+  for (int i = start_path_number; i < argc; i++) {
     parsed_args->paths[i - start_path_number] = ft_strdup(argv[i]);
   }
   parsed_args->paths[count_paths] = NULL;

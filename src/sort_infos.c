@@ -58,6 +58,7 @@ FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
 
       free(infos[j]);
     }
+    free(infos[len]);
     free(infos);
     return reversed_infos;
   }

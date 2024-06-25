@@ -60,10 +60,14 @@ void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
     if (infos[i]->path_name[0] == '.' && !show_hidden) {
       continue;
     }
-    max_num_of_hard_link = max(max_num_of_hard_link, ft_strlen(ft_itoa(infos[i]->num_of_hard_link)));
+    char *num_of_hardlink_str = ft_itoa(infos[i]->num_of_hard_link);
+    max_num_of_hard_link = max(max_num_of_hard_link, ft_strlen(num_of_hardlink_str));
+    free(num_of_hardlink_str);
     max_user_name_len = max(max_user_name_len, ft_strlen(infos[i]->owner_name));
     max_group_name_len = max(max_group_name_len, ft_strlen(infos[i]->group_name));
-    max_bytes_len = max(max_bytes_len, ft_strlen(ft_itoa(infos[i]->bytes)));
+    char *bytes_str = ft_itoa(infos[i]->bytes);
+    max_bytes_len = max(max_bytes_len, ft_strlen(bytes_str));
+    free(bytes_str);
   }
 
   for (int i = 0; infos[i]; i++) {
@@ -198,5 +202,6 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     free(sorted_infos[i]->permission);
     free(sorted_infos[i]);
   }
+  free(sorted_infos[len]);
   free(sorted_infos);
 }

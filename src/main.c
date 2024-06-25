@@ -2,7 +2,7 @@
 
 int main(int argc, char** argv) {
   // parse args
-  Args* args = parse_args(argc, argv);
+  Args *args = parse_args(argc, argv);
   if(!args->paths) {
     return 1;
   }
@@ -25,6 +25,13 @@ int main(int argc, char** argv) {
   for (int i = 0; sorted_paths[i]; i++) {
     free(sorted_paths[i]);
   }
+  free(sorted_paths[paths_count]);
   free(sorted_paths);
+  for (int i = 0; args->paths[i]; i++) {
+    free(args->paths[i]);
+  }
+  free(args->paths[paths_count]);
+  free(args->paths);
   free(args);
+  return 0;
 }
