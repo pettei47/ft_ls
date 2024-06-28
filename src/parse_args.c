@@ -8,6 +8,7 @@ Args* parse_args(int argc, char** argv) {
   parsed_args->recursive = false;
   parsed_args->reverse = false;
   parsed_args->show_hidden = false;
+  parsed_args->show_blocks = false;
 
   bool acceptable_options = true;
   int count_paths = 0;
@@ -17,28 +18,22 @@ Args* parse_args(int argc, char** argv) {
     char *arg = argv[i];
     if(ft_strlen(arg) == 0) {
       parsed_args->paths = NULL;
+      ft_putendl_fd("ft_ls: : No such file or directory", 2);
       return parsed_args;
     }
 
     if(acceptable_options && arg[0] == '-') {
-      if(ft_strchr(arg, 'l')) {
-        parsed_args->long_style = true;
-      }
-      if(ft_strchr(arg, 't')) {
-        parsed_args->order_by_modified_time = true;
-      }
-      if(ft_strchr(arg, 'r')) {
-        parsed_args->reverse = true;
-      }
-      if(ft_strchr(arg, 'a')) {
-        parsed_args->show_hidden = true;
-      }
-      if (ft_strchr(arg, 'R')) {
-        parsed_args->recursive = true;
-      }
+      parsed_args->recursive = ft_strchr(arg, 'R') != 0;
+      parsed_args->show_hidden = ft_strchr(arg, 'a') != 0;
+      parsed_args->long_style = ft_strchr(arg, 'l') != 0;
+      parsed_args->reverse = ft_strchr(arg, 'r') != 0;
+      parsed_args->show_blocks = ft_strchr(arg, 's') != 0;
+      parsed_args->order_by_modified_time = ft_strchr(arg, 't') != 0;
       for (int i = 1; arg[i]; i++) {
-        if(!ft_strchr("ltraR", arg[i])) {
+        if(!ft_strchr("Ralrst", arg[i])) {
           parsed_args->paths = NULL;
+          ft_perror("ft_ls: invalid option -- ", arg[i]);
+          ft_putendl_fd("usage: ft_ls [-Ralrst] [file ...]", 2);
           return parsed_args;
         }
       }

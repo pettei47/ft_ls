@@ -24,6 +24,7 @@ typedef struct s_args
   bool reverse;
   bool recursive;
   bool show_hidden;
+  bool show_blocks;
 } Args;
 
 typedef struct s_file

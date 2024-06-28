@@ -38,8 +38,12 @@ int max(int a, int b) {
   return a > b ? a : b;
 }
 
-void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
-  if (long_style) {
+void print_file_info(FileInfo **infos, Args *args) {
+  bool long_style = args->long_style;
+  bool show_hidden = args->show_hidden;
+  bool show_blocks = args->show_blocks;
+
+  if (long_style || show_blocks) {
     int total_block = 0;
     for (int i = 0; infos[i]; i++) {
       if (infos[i]->path_name[0] == '.' && !show_hidden) {
@@ -52,7 +56,8 @@ void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
     ft_putendl_fd("", 1);
   }
 
-  int max_num_of_hard_link = 0;
+  int max_digit_of_blocks = 0;
+  int max_digit_of_hard_links = 0;
   int max_user_name_len = 0;
   int max_group_name_len = 0;
   int max_bytes_len = 0;
@@ -60,8 +65,11 @@ void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
     if (infos[i]->path_name[0] == '.' && !show_hidden) {
       continue;
     }
+    char *num_of_block_str = ft_itoa(infos[i]->num_of_block);
+    max_digit_of_blocks = max(max_digit_of_blocks, ft_strlen(num_of_block_str));
+    free(num_of_block_str);
     char *num_of_hardlink_str = ft_itoa(infos[i]->num_of_hard_link);
-    max_num_of_hard_link = max(max_num_of_hard_link, ft_strlen(num_of_hardlink_str));
+    max_digit_of_hard_links = max(max_digit_of_hard_links, ft_strlen(num_of_hardlink_str));
     free(num_of_hardlink_str);
     max_user_name_len = max(max_user_name_len, ft_strlen(infos[i]->owner_name));
     max_group_name_len = max(max_group_name_len, ft_strlen(infos[i]->group_name));
@@ -74,12 +82,16 @@ void print_file_info(FileInfo **infos, bool long_style, bool show_hidden) {
     if (infos[i]->path_name[0] == '.' && !show_hidden) {
       continue;
     }
+    if (show_blocks) {
+      print_align_right_number(infos[i]->num_of_block, max_digit_of_blocks);
+      ft_putstr_fd(" ", 1);
+    }
     if (long_style) {
       ft_putstr_fd(infos[i]->file_mode == S_IFDIR ? "d"
                   : infos[i]->file_mode == S_IFLNK ? "l" : "-", 1);
       ft_putstr_fd(infos[i]->permission, 1);
       ft_putstr_fd(" ", 1);
-      print_align_right_number(infos[i]->num_of_hard_link, max_num_of_hard_link + 1);
+      print_align_right_number(infos[i]->num_of_hard_link, max_digit_of_hard_links + 1);
       ft_putstr_fd(" ", 1);
       print_align_left(infos[i]->owner_name, max_user_name_len + 1);
       ft_putstr_fd(" ", 1);
@@ -173,7 +185,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     ft_putstr_fd(path, 1);
     ft_putendl_fd(":", 1);
   }
-  print_file_info(sorted_infos, args->long_style, args->show_hidden);
+  print_file_info(sorted_infos, args);
 
   // 再帰的に実行
   if (args->recursive) {
