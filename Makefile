@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/06/25 22:31:16 by teppei           ###   ########.fr        #
+#    Updated: 2024/06/29 01:31:17 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,9 +50,11 @@ $(L_FT):
 	@make -C libft
 
 clean:
+	@make clean -C libft
 	rm -f $(OBJS) */*.gch
 	rm -rf *.dSYM
 fclean: clean
+	@make fclean -C libft
 	rm -f $(NAME)
 
 re: fclean all
