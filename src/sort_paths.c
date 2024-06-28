@@ -1,7 +1,7 @@
 #include "ft_ls.h"
 
 char **reverse_paths(char **paths, int len) {
-  char **reversed_paths = (char **)malloc((sizeof(char *) * len) + 1);
+  char **reversed_paths = (char **)malloc(sizeof(char *) * (len + 1));
   reversed_paths[len] = NULL;
 
   for (int i = 0; i < len; i++) {
@@ -44,7 +44,7 @@ char **sort_paths(char **paths, bool t, bool r) {
     }
   }
 
-  char **checked_paths = (char **)malloc((sizeof(char *) * len) + 1);
+  char **checked_paths = (char **)malloc(sizeof(char *) * (len + 1));
   checked_paths[len] = NULL;
 
   // pathsの存在チェック
@@ -78,7 +78,7 @@ char **sort_paths(char **paths, bool t, bool r) {
     }
   }
 
-  char **sorted_paths = (char **)malloc((sizeof(char *) * checked_len) + 1);
+  char **sorted_paths = (char **)malloc(sizeof(char *) * (checked_len + 1));
   sorted_paths[checked_len] = NULL;
 
   for (int i = 0; checked_paths[i]; i++) {

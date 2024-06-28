@@ -33,7 +33,7 @@ FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
   }
 
   if (r) {
-    FileInfo **reversed_infos = (FileInfo **)malloc((sizeof(FileInfo) * len) + 1);
+    FileInfo **reversed_infos = (FileInfo **)malloc(sizeof(FileInfo) * (len + 1));
     reversed_infos[len] = NULL;
 
     for (int i = 0; i < len; i++) {

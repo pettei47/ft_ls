@@ -148,7 +148,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     f = f->next;
   }
 
-  FileInfo **infos = (FileInfo **)malloc((sizeof(FileInfo) * len) + 1);
+  FileInfo **infos = (FileInfo **)malloc(sizeof(FileInfo) * (len + 1));
   infos[len] = NULL;
 
   File *c = head->next;
