@@ -32,7 +32,7 @@ Args* parse_args(int argc, char** argv) {
       for (int i = 1; arg[i]; i++) {
         if(!ft_strchr("Ralrst", arg[i])) {
           parsed_args->paths = NULL;
-          ft_perror("ft_ls: invalid option -- ", arg[i]);
+          ft_perror("ft_ls: invalid option -- ", &arg[i]);
           ft_putendl_fd("usage: ft_ls [-Ralrst] [file ...]", 2);
           return parsed_args;
         }
