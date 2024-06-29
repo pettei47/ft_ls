@@ -128,12 +128,20 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     struct stat *st = (struct stat *)malloc(sizeof(struct stat));
     File *f = (File *)malloc(sizeof(File));
 
-    f->path_name = ft_strdup(ent->d_name);
-
     f->stat_path = get_stat_path(path, ent->d_name);
     lstat(f->stat_path, st);
     f->stat = st;
-
+    if (args->long_style && (st->st_mode & S_IFMT) == S_IFLNK) {
+      char *link_buf = (char *)malloc(PATH_MAX);
+      ssize_t len = readlink(f->stat_path, link_buf, PATH_MAX);
+      link_buf[len] = '\0';
+      char *link_from = ft_strjoin(ent->d_name, " -> ");
+      f->path_name = ft_strjoin(link_from, link_buf);
+      free(link_buf);
+      free(link_from);
+    } else {
+      f->path_name = ft_strdup(ent->d_name);
+    }
     current->next = f;
     current = f;
   }
@@ -141,18 +149,18 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
   closedir(dp);
 
   // stats to file info
-  int len = 0;
+  int files_len = 0;
   File *f = head->next;
   while (f) {
-    ++len;
+    ++files_len;
     f = f->next;
   }
 
-  FileInfo **infos = (FileInfo **)malloc(sizeof(FileInfo) * (len + 1));
-  infos[len] = NULL;
+  FileInfo **infos = (FileInfo **)malloc(sizeof(FileInfo) * (files_len + 1));
+  infos[files_len] = NULL;
 
   File *c = head->next;
-  for (int i = 0; i < len; i++) {
+  for (int i = 0; i < files_len; i++) {
     infos[i] = (FileInfo *)malloc(sizeof(FileInfo));
     infos[i]->path_name = ft_strdup(c->path_name);
     free(c->path_name);
@@ -175,7 +183,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
   free(head);
 
   // sort infos
-  FileInfo **sorted_infos = sort_infos(infos, len, args->order_by_modified_time, args->reverse);
+  FileInfo **sorted_infos = sort_infos(infos, files_len, args->order_by_modified_time, args->reverse);
 
   // 出力する
   if (print_path) {
@@ -214,6 +222,6 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     free(sorted_infos[i]->permission);
     free(sorted_infos[i]);
   }
-  free(sorted_infos[len]);
+  free(sorted_infos[files_len]);
   free(sorted_infos);
 }
