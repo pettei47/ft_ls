@@ -3,3 +3,11 @@ symbolic_link_different_dir
 symbolic_link_same_dir
 testdir
 textfile.txt
+
+./testdir:
+childdir
+link_to_link
+samplefile.txt
+
+./testdir/childdir:
+samplefile_child.txt

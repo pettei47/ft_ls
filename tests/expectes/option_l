@@ -1,0 +1,6 @@
+total 40
+-rw-r--r--  1 teppei  staff  15318 Jun 30 01:14 file_size_over10000.txt
+lrwxr-xr-x  1 teppei  staff     14 Jun 30 01:07 symbolic_link_different_dir -> ../../Makefile
+lrwxr-xr-x  1 teppei  staff     12 Jun 30 01:07 symbolic_link_same_dir -> textfile.txt
+drwxr-xr-x  5 teppei  staff    160 Jun 30 01:10 testdir
+-rw-r--r--  1 teppei  staff     12 Jun 30 01:11 textfile.txt
