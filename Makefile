@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/06/29 01:31:17 by teppei           ###   ########.fr        #
+#    Updated: 2024/06/30 02:00:12 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,4 +63,10 @@ cl: all clean
 run: all
 	./$(NAME)
 
-.PHONY: all clean fclean re cl run
+test: all
+	@bash ./tests/unit_tests/run_all_tests.sh
+
+test-%: all
+	@bash ./tests/unit_tests/${@:test-%=%}.sh
+
+.PHONY: all clean fclean re cl run test test-%

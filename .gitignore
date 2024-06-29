@@ -1,3 +1,5 @@
 *.o
 a.out
 ft_ls
+tests/outputs
+tests/logs
