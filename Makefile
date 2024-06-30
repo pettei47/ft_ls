@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/06/30 02:00:12 by teppei           ###   ########.fr        #
+#    Updated: 2024/06/30 10:55:03 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,9 @@ LIBS		=	-lft
 L_FT		=	libft/libft.a
 
 DEBUGGER_DIR = obj/debugger
+
+TEST_OUTOUT_DIR = tests/outputs
+TEST_LOG_DIR = tests/logs
 
 all: $(OBJDIR) ${DEBUGGER_DIR} $(NAME)
 
@@ -63,10 +66,16 @@ cl: all clean
 run: all
 	./$(NAME)
 
-test: all
+test: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR)
 	@bash ./tests/unit_tests/run_all_tests.sh
 
-test-%: all
+test-%: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR)
 	@bash ./tests/unit_tests/${@:test-%=%}.sh
+
+$(TEST_OUTOUT_DIR):
+	@mkdir $(TEST_OUTOUT_DIR)
+
+$(TEST_LOG_DIR):
+	@mkdir $(TEST_LOG_DIR)
 
 .PHONY: all clean fclean re cl run test test-%
