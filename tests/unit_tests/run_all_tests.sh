@@ -9,3 +9,5 @@ bash ${TESTS_DIR}/option_LargeR.sh
 bash ${TESTS_DIR}/option_r.sh
 bash ${TESTS_DIR}/option_s.sh
 bash ${TESTS_DIR}/option_t.sh
+bash ${TESTS_DIR}/all_options.sh
+bash ${TESTS_DIR}/invalid_option.sh

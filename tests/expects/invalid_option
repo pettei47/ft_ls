@@ -1,0 +1,2 @@
+ft_ls: invalid option -- X
+usage: ft_ls [-Ralrst] [file ...]
