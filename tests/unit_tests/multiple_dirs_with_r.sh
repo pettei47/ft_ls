@@ -15,7 +15,7 @@ diff ${OUTPUTS_DIR}/${TEST_NAME}_output ${EXPECTS_DIR}/${TEST_NAME} > ${LOGS_DIR
 if [ $? -eq 0 ]; then
   echo -n "[PASS]"
 else
-  echo -n "[FAIL]"
+  echo -n "-FAIL-"
 fi
 echo " test: ${TEST_NAME}"
 
@@ -23,6 +23,6 @@ leaks -q -atExit -- ../../ft_ls ${OPTION} testdir . z x y &> ${LOGS_DIR}/${TEST_
 if [ $? -eq 0 ]; then
   echo -n "[PASS]"
 else
-  echo -n "[FAIL]"
+  echo -n "-FAIL-"
 fi
 echo " test: ${TEST_NAME} leak check"
