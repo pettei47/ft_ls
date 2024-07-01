@@ -122,31 +122,35 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
   head->stat = NULL;
   head->next = NULL;
 
-  struct dirent *ent;
   File *current = head;
-  while ((ent = readdir(dp))) {
+  struct dirent *ent;
+  while (dp == NULL || (ent = readdir(dp))) {
+    char *name = dp == NULL ? path : ent->d_name;
     struct stat *st = (struct stat *)malloc(sizeof(struct stat));
     File *f = (File *)malloc(sizeof(File));
 
-    f->stat_path = get_stat_path(path, ent->d_name);
+    f->stat_path = dp == NULL ? ft_strdup(path) : get_stat_path(path, ent->d_name);
     lstat(f->stat_path, st);
     f->stat = st;
     if (args->long_style && (st->st_mode & S_IFMT) == S_IFLNK) {
       char *link_buf = (char *)malloc(PATH_MAX);
       ssize_t len = readlink(f->stat_path, link_buf, PATH_MAX);
       link_buf[len] = '\0';
-      char *link_from = ft_strjoin(ent->d_name, " -> ");
+      char *link_from = ft_strjoin(name, " -> ");
       f->path_name = ft_strjoin(link_from, link_buf);
       free(link_buf);
       free(link_from);
     } else {
-      f->path_name = ft_strdup(ent->d_name);
+      f->path_name = ft_strdup(name);
     }
     current->next = f;
     current = f;
+    if (dp == NULL) {
+      break;
+    }
   }
 
-  closedir(dp);
+  if (dp != NULL) closedir(dp);
 
   // stats to file info
   int files_len = 0;

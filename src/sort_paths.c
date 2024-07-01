@@ -50,16 +50,28 @@ char **sort_paths(char **paths, bool t, bool r) {
   // pathsの存在チェック
   int checked_len = 0;
   for (int i = 0; i < len; i++) {
-    DIR *dir = opendir(paths[i]);
-    if (dir == NULL) {
+    struct stat *st = (struct stat *)malloc(sizeof(struct stat));
+    int stat_success = stat(paths[i], st) != 0;
+    if (stat_success == 0 && S_ISDIR(st->st_mode)) {
+      DIR *dir = opendir(paths[i]);
+      if (dir != NULL) {
+        closedir(dir);
+        checked_paths[checked_len++] = ft_strdup(paths[i]);
+      } else {
+        ft_putstr_fd("ft_ls: ", 2);
+        ft_putstr_fd(paths[i], 2);
+        ft_putstr_fd(": ", 2);
+        ft_putendl_fd(strerror(errno), 2);
+      }
+    } else if (stat_success == 0) {
+      checked_paths[checked_len++] = ft_strdup(paths[i]);
+    } else {
       ft_putstr_fd("ft_ls: ", 2);
       ft_putstr_fd(paths[i], 2);
       ft_putstr_fd(": ", 2);
       ft_putendl_fd(strerror(errno), 2);
-    } else {
-      closedir(dir);
-      checked_paths[checked_len++] = ft_strdup(paths[i]);
     }
+    free(st);
   }
   for (int i = checked_len; i < len; i++) {
     checked_paths[i] = NULL;

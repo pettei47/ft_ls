@@ -14,3 +14,4 @@ bash ${TESTS_DIR}/invalid_option.sh
 bash ${TESTS_DIR}/invalid_args_order.sh
 bash ${TESTS_DIR}/multiple_dirs.sh
 bash ${TESTS_DIR}/multiple_dirs_with_r.sh
+bash ${TESTS_DIR}/give_file.sh
