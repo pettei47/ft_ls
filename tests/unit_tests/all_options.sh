@@ -1,13 +1,13 @@
 #!/bin/bash
 
-TEST_NAME="option_LargeR"
+TEST_NAME="all_options"
 TEST_DIR="tests"
 TEST_DATA_DIR="${TEST_DIR}/test_data"
 OUTPUTS_DIR="../outputs"
 EXPECTS_DIR="../expects"
 LOGS_DIR="../logs"
 
-OPTION="-R"
+OPTION="-alrstR"
 
 cd ${TEST_DATA_DIR}
 ../../ft_ls ${OPTION} &> ${OUTPUTS_DIR}/${TEST_NAME}_output
