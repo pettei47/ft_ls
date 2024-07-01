@@ -51,7 +51,7 @@ void print_file_info(FileInfo **infos, Args *args, bool is_dir) {
   bool show_hidden = args->show_hidden;
   bool show_blocks = args->show_blocks;
 
-  if (show_blocks || (long_style && is_dir)) {
+  if (is_dir && (show_blocks || long_style)) {
     int total_block = 0;
     for (int i = 0; infos[i]; i++) {
       if (infos[i]->path_name[0] == '.' && !show_hidden) {
@@ -198,7 +198,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
   FileInfo **sorted_infos = sort_infos(infos, files_len, args->order_by_modified_time, args->reverse);
 
   // 出力する
-  if (print_path) {
+  if (print_path && is_dir(path)) {
     if (endline) {
       ft_putendl_fd("", 1);
     }

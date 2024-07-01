@@ -16,3 +16,10 @@ bash ${TESTS_DIR}/multiple_dirs.sh
 bash ${TESTS_DIR}/multiple_dirs_with_r.sh
 bash ${TESTS_DIR}/give_file.sh
 bash ${TESTS_DIR}/give_file_with_l.sh
+bash ${TESTS_DIR}/args_with_LargeR.sh
+bash ${TESTS_DIR}/args_with_a.sh
+bash ${TESTS_DIR}/args_with_l.sh
+bash ${TESTS_DIR}/args_with_r.sh
+bash ${TESTS_DIR}/args_with_s.sh
+bash ${TESTS_DIR}/args_with_t.sh
+bash ${TESTS_DIR}/args_with_all_options.sh

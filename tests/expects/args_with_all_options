@@ -1,0 +1,44 @@
+ft_ls: x: No such file or directory
+ft_ls: y: No such file or directory
+ft_ls: z: No such file or directory
+0 lrwxr-xr-x  1 teppei  staff  14 Jun 30 01:07 symbolic_link_different_dir -> ../../Makefile
+8 -rw-r--r--  1 teppei  staff  12 Jun 30 01:11 textfile.txt
+
+testdir:
+total 8
+0 lrwxr-xr-x  1 teppei  staff   25 Jun 30 01:10 link_to_link -> ../symbolic_link_same_dir
+0 drwxr-xr-x  5 teppei  staff  160 Jun 30 01:10 .
+0 drwxr-xr-x  3 teppei  staff   96 Jun 30 01:10 childdir
+8 -rw-r--r--  1 teppei  staff   12 Jun 30 01:12 samplefile.txt
+0 drwxr-xr-x  8 teppei  staff  256 Jun 30 01:44 ..
+
+testdir/childdir:
+total 8
+0 drwxr-xr-x  5 teppei  staff  160 Jun 30 01:10 ..
+0 drwxr-xr-x  3 teppei  staff   96 Jun 30 01:10 .
+8 -rw-r--r--  1 teppei  staff   11 Jun 30 01:11 samplefile_child.txt
+
+.:
+total 40
+ 0 lrwxr-xr-x  1 teppei  staff     12 Jun 30 01:07 symbolic_link_same_dir -> textfile.txt
+ 0 lrwxr-xr-x  1 teppei  staff     14 Jun 30 01:07 symbolic_link_different_dir -> ../../Makefile
+ 0 drwxr-xr-x  5 teppei  staff    160 Jun 30 01:10 testdir
+ 8 -rw-r--r--  1 teppei  staff     12 Jun 30 01:11 textfile.txt
+32 -rw-r--r--  1 teppei  staff  15318 Jun 30 01:14 file_size_over10000.txt
+ 0 -rw-r--r--  1 teppei  staff      0 Jun 30 01:17 .hidden_file
+ 0 drwxr-xr-x  8 teppei  staff    256 Jun 30 01:44 .
+ 0 drwxr-xr-x  7 teppei  staff    224 Jun 30 10:54 ..
+
+./testdir:
+total 8
+0 lrwxr-xr-x  1 teppei  staff   25 Jun 30 01:10 link_to_link -> ../symbolic_link_same_dir
+0 drwxr-xr-x  5 teppei  staff  160 Jun 30 01:10 .
+0 drwxr-xr-x  3 teppei  staff   96 Jun 30 01:10 childdir
+8 -rw-r--r--  1 teppei  staff   12 Jun 30 01:12 samplefile.txt
+0 drwxr-xr-x  8 teppei  staff  256 Jun 30 01:44 ..
+
+./testdir/childdir:
+total 8
+0 drwxr-xr-x  5 teppei  staff  160 Jun 30 01:10 ..
+0 drwxr-xr-x  3 teppei  staff   96 Jun 30 01:10 .
+8 -rw-r--r--  1 teppei  staff   11 Jun 30 01:11 samplefile_child.txt
