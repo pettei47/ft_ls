@@ -11,3 +11,6 @@ bash ${TESTS_DIR}/option_s.sh
 bash ${TESTS_DIR}/option_t.sh
 bash ${TESTS_DIR}/all_options.sh
 bash ${TESTS_DIR}/invalid_option.sh
+bash ${TESTS_DIR}/invalid_args_order.sh
+bash ${TESTS_DIR}/multiple_dirs.sh
+bash ${TESTS_DIR}/multiple_dirs_with_r.sh

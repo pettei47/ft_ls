@@ -1,0 +1,5 @@
+ft_ls: -l: No such file or directory
+testdir:
+childdir
+link_to_link
+samplefile.txt

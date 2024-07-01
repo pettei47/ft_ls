@@ -1,0 +1,14 @@
+ft_ls: x: No such file or directory
+ft_ls: y: No such file or directory
+ft_ls: z: No such file or directory
+testdir:
+samplefile.txt
+link_to_link
+childdir
+
+.:
+textfile.txt
+testdir
+symbolic_link_same_dir
+symbolic_link_different_dir
+file_size_over10000.txt
