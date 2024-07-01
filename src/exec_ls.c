@@ -38,12 +38,20 @@ int max(int a, int b) {
   return a > b ? a : b;
 }
 
-void print_file_info(FileInfo **infos, Args *args) {
+bool is_dir(char *path) {
+  struct stat *st = (struct stat *)malloc(sizeof(struct stat));
+  lstat(path, st);
+  bool is_dir = (st->st_mode & S_IFMT) == S_IFDIR;
+  free(st);
+  return is_dir;
+}
+
+void print_file_info(FileInfo **infos, Args *args, bool is_dir) {
   bool long_style = args->long_style;
   bool show_hidden = args->show_hidden;
   bool show_blocks = args->show_blocks;
 
-  if (long_style || show_blocks) {
+  if (show_blocks || (long_style && is_dir)) {
     int total_block = 0;
     for (int i = 0; infos[i]; i++) {
       if (infos[i]->path_name[0] == '.' && !show_hidden) {
@@ -197,7 +205,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     ft_putstr_fd(path, 1);
     ft_putendl_fd(":", 1);
   }
-  print_file_info(sorted_infos, args);
+  print_file_info(sorted_infos, args, is_dir(path));
 
   // 再帰的に実行
   if (args->recursive) {
