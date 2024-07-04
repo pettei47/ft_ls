@@ -7,7 +7,7 @@ OUTPUTS_DIR="../outputs"
 EXPECTS_DIR="../expects"
 LOGS_DIR="../logs"
 
-OPTION="-alrstR"
+OPTION="-alrtR"
 
 cd ${TEST_DATA_DIR}
 ../../ft_ls ${OPTION} &> ${OUTPUTS_DIR}/${TEST_NAME}_output
