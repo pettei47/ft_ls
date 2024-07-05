@@ -1,16 +1,11 @@
 #include "ft_ls.h"
 
-char **reverse_paths(char **paths, int path_len, char **files, int file_len) {
-  char **reversed_paths = (char **)malloc(sizeof(char *) * (path_len + file_len + 1));
+char **reverse_paths(char **paths, int path_len) {
+  char **reversed_paths = (char **)malloc(sizeof(char *) * (path_len + 1));
   reversed_paths[path_len] = NULL;
 
-  for (int i = 0; i < file_len; i++) {
-    reversed_paths[i] = ft_strdup(files[file_len - i - 1]);
-    free(files[file_len - i - 1]);
-  }
-  free(files);
   for (int i = 0; i < path_len; i++) {
-    reversed_paths[file_len + i] = ft_strdup(paths[path_len - i - 1]);
+    reversed_paths[i] = ft_strdup(paths[path_len - i - 1]);
     free(paths[path_len - i - 1]);
   }
   free(paths);
@@ -23,8 +18,8 @@ int mt_cmp(char *s1, char *s2) {
 
   stat(s1, &st1);
   stat(s2, &st2);
-  int diff_tv_sec = &st1.st_mtimespec.tv_sec - &st2.st_mtimespec.tv_sec;
-  int diff_tv_nsec = &st1.st_mtimespec.tv_nsec - &st2.st_mtimespec.tv_nsec;
+  time_t diff_tv_sec = st1.st_mtimespec.tv_sec - st2.st_mtimespec.tv_sec;
+  long diff_tv_nsec = st1.st_mtimespec.tv_nsec - st2.st_mtimespec.tv_nsec;
 
   if (diff_tv_sec != 0) {
     return diff_tv_sec;
@@ -32,7 +27,7 @@ int mt_cmp(char *s1, char *s2) {
   return diff_tv_nsec;
 }
 
-char **sort_paths(char **paths, bool t, bool r) {
+Paths *sort_paths(char **paths, bool t, bool r) {
   int len = 0;
   for (int i = 0; paths[i]; i++) {
     ++len;
@@ -81,11 +76,11 @@ char **sort_paths(char **paths, bool t, bool r) {
     }
     free(st);
   }
-  for (int i = checked_path_len; i < len; i++) {
-    checked_paths[i] = NULL;
-  }
   for (int i = checked_file_len; i < len; i++) {
     checked_files[i] = NULL;
+  }
+  for (int i = checked_path_len; i < len; i++) {
+    checked_paths[i] = NULL;
   }
 
   // tがあれば更新時間順
@@ -99,36 +94,15 @@ char **sort_paths(char **paths, bool t, bool r) {
         }
       }
     }
-    for (int i = 0; i < checked_file_len - 1; i++) {
-      for (int j = i + 1; j < checked_file_len; j++) {
-        if (mt_cmp(checked_files[i], checked_files[j]) < 0) {
-          char *tmp = checked_files[j];
-          checked_files[j] = checked_files[i];
-          checked_files[i] = tmp;
-        }
-      }
-    }
   }
 
+  Paths *grouped_paths = (Paths *)malloc(sizeof(Paths));
+  grouped_paths->files = checked_files;
+  grouped_paths->total_paths_len = checked_file_len + checked_path_len;
   if (r) {
-    return reverse_paths(checked_paths, checked_path_len, checked_files, checked_file_len);
+    grouped_paths->paths = reverse_paths(checked_paths, checked_path_len);
+    return grouped_paths;
   }
-
-  int total_checked_len = checked_path_len + checked_file_len;
-  char **sorted_paths = (char **)malloc(sizeof(char *) * (total_checked_len + 1));
-  sorted_paths[total_checked_len] = NULL;
-
-  // ファイルが先になるように
-  for (int i = 0; checked_files[i]; i++) {
-    sorted_paths[i] = ft_strdup(checked_files[i]);
-    free(checked_files[i]);
-  }
-  free(checked_files);
-  for (int i = 0; checked_paths[i]; i++) {
-    sorted_paths[checked_file_len + i] = ft_strdup(checked_paths[i]);
-    free(checked_paths[i]);
-  }
-  free(checked_paths);
-
-  return sorted_paths;
+  grouped_paths->paths = checked_paths;
+  return grouped_paths;
 }

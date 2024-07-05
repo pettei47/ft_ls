@@ -1,0 +1,17 @@
+ls: ./no_permission_dir: Permission denied
+file_size_over10000.txt
+no_permission_dir
+symbolic_link_different_dir
+symbolic_link_same_dir
+testdir
+textfile.txt
+
+./no_permission_dir:
+
+./testdir:
+childdir
+link_to_link
+samplefile.txt
+
+./testdir/childdir:
+samplefile_child.txt

@@ -28,6 +28,13 @@ typedef struct s_args
   bool show_blocks;
 } Args;
 
+typedef struct s_paths
+{
+  char **files;
+  char **paths;
+  int total_paths_len;
+} Paths;
+
 typedef struct s_file
 {
   char *path_name;
@@ -52,11 +59,13 @@ typedef struct s_file_info
 } FileInfo;
 
 Args *parse_args(int argc, char **argv);
-char **sort_paths(char **paths, bool t, bool r);
+Paths *sort_paths(char **paths, bool t, bool r);
 void exec_ls(char *path, Args *args, bool print_path, bool endline);
+void  exec_ls_files(char **files, Args *args);
+char *get_stat_path(char *path, char *name);
+char *convert_permission(int mode);
 FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r);
-
-// utils
+void print_file_info(FileInfo **infos, Args *args, bool is_dir);
 void print_align_left(char *str, int width);
 void print_align_right_number(int num, int width);
 

@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/06/30 10:55:03 by teppei           ###   ########.fr        #
+#    Updated: 2024/07/06 07:44:31 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ SRCS		:=	main.c \
 						parse_args.c \
 						sort_paths.c \
 						exec_ls.c \
+						exec_ls_files.c \
 						sort_infos.c \
+						print_file_info.c \
 						print_align.c \
 						debugger/print_args.c \
 

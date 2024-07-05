@@ -1,30 +1,19 @@
 #include "ft_ls.h"
 
-char *get_stat_path(char *path, char *name) {
-  char *dir_path = ft_strjoin(path, "/");
-  char *stat_path = ft_strjoin(dir_path, name);
-  free(dir_path);
-  return stat_path;
-}
-
-
-void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
-  DIR *dp = opendir(path);
-
+void  exec_ls_files(char **files, Args *args) {
   File *head = (File *)malloc(sizeof(File));
   head->path_name = NULL;
   head->stat = NULL;
   head->next = NULL;
 
   File *current = head;
-  struct dirent *ent;
-  while (dp == NULL || (ent = readdir(dp))) {
-    char *name = dp == NULL ? path : ent->d_name;
+  for (int i = 0; files[i]; i++) {
+    char *name = files[i];
     struct stat *st = (struct stat *)malloc(sizeof(struct stat));
     File *f = (File *)malloc(sizeof(File));
     f->next = NULL;
 
-    f->stat_path = dp == NULL ? ft_strdup(path) : get_stat_path(path, ent->d_name);
+    f->stat_path = ft_strdup(name);
     lstat(f->stat_path, st);
     f->stat = st;
     if (args->long_style && (st->st_mode & S_IFMT) == S_IFLNK) {
@@ -40,12 +29,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     }
     current->next = f;
     current = f;
-    if (dp == NULL) {
-      break;
-    }
   }
-
-  if (dp != NULL) closedir(dp);
 
   // stats to file info
   int files_len = 0;
@@ -85,32 +69,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
   FileInfo **sorted_infos = sort_infos(infos, files_len, args->order_by_modified_time, args->reverse);
 
   // 出力する
-  if (print_path) {
-    if (endline) {
-      ft_putendl_fd("", 1);
-    }
-    ft_putstr_fd(path, 1);
-    ft_putendl_fd(":", 1);
-  }
-  print_file_info(sorted_infos, args, true);
-
-  // 再帰的に実行
-  if (args->recursive) {
-    for (int i = 0; sorted_infos[i]; i++) {
-      // directoryかどうかを判定
-      if (sorted_infos[i]->file_mode != S_IFDIR) {
-        continue;
-      }
-      if (ft_strcmp(sorted_infos[i]->path_name, ".") == 0 ||
-          ft_strcmp(sorted_infos[i]->path_name, "..") == 0 ) {
-        continue;
-      }
-      if (!args->show_hidden && sorted_infos[i]->path_name[0] == '.') {
-        continue;
-      }
-      exec_ls(sorted_infos[i]->stat_path, args, true, true);
-    }
-  }
+  print_file_info(sorted_infos, args, false);
 
   // free
   for (int i = 0; sorted_infos[i]; i++) {
