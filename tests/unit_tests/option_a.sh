@@ -19,6 +19,10 @@ else
 fi
 echo " test: ${TEST_NAME}"
 
+if [ ${SKIP_LEAK_CHECK} ]; then
+  exit 0
+fi
+
 leaks -q -atExit -- ../../ft_ls ${OPTION} &> ${LOGS_DIR}/${TEST_NAME}_leaks.log
 if [ $? -eq 0 ]; then
   echo -n "[PASS]"
