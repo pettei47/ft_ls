@@ -21,6 +21,10 @@ bash ${TESTS_DIR}/option_LargeR.sh
 if [ $? -ne 0 ]; then
   FAILED_TESTS=$((FAILED_TESTS + 1))
 fi
+bash ${TESTS_DIR}/option_LargeR_with_no_permission_dir.sh
+if [ $? -ne 0 ]; then
+  FAILED_TESTS=$((FAILED_TESTS + 1))
+fi
 bash ${TESTS_DIR}/option_r.sh
 if [ $? -ne 0 ]; then
   FAILED_TESTS=$((FAILED_TESTS + 1))

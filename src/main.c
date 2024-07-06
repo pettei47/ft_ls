@@ -20,11 +20,19 @@ int main(int argc, char** argv) {
   );
 
   int sorted_paths_count = sorted_paths->total_paths_len;
+  int exit_code = arg_paths_count == sorted_paths_count ? 0 : 1;
 
   exec_ls_files(sorted_paths->files, args);
 
   for (int i = 0; sorted_paths->paths[i]; i++) {
-    exec_ls(sorted_paths->paths[i], args, arg_paths_count > 1, sorted_paths->files[0] || i > 0);
+    int exec_exit_code = exec_ls(
+      sorted_paths->paths[i],
+      args, arg_paths_count > 1,
+      sorted_paths->files[0] || i > 0
+    );
+    if (!exit_code) {
+      exit_code = exec_exit_code;
+    }
   }
 
   // free
@@ -42,5 +50,5 @@ int main(int argc, char** argv) {
   }
   free(args->paths);
   free(args);
-  return arg_paths_count == sorted_paths_count ? 0 : 1;
+  return exit_code;
 }

@@ -8,7 +8,8 @@ char *get_stat_path(char *path, char *name) {
 }
 
 
-void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
+int exec_ls(char *path, Args *args, bool print_path, bool endline) {
+  int exit_code = 0;
   DIR *dp = opendir(path);
 
   File *head = (File *)malloc(sizeof(File));
@@ -18,7 +19,7 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
 
   File *current = head;
   struct dirent *ent;
-  while (dp == NULL || (ent = readdir(dp))) {
+  while (dp != NULL && (ent = readdir(dp))) {
     char *name = dp == NULL ? path : ent->d_name;
     struct stat *st = (struct stat *)malloc(sizeof(struct stat));
     File *f = (File *)malloc(sizeof(File));
@@ -40,9 +41,6 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     }
     current->next = f;
     current = f;
-    if (dp == NULL) {
-      break;
-    }
   }
 
   if (dp != NULL) closedir(dp);
@@ -92,6 +90,13 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
     ft_putstr_fd(path, 1);
     ft_putendl_fd(":", 1);
   }
+  if (dp == NULL) {
+    ft_putstr_fd("ft_ls: ", 2);
+    ft_putstr_fd(path, 2);
+    ft_putstr_fd(": ", 2);
+    ft_putendl_fd(strerror(errno), 2);
+    exit_code = 1;
+  }
   print_file_info(sorted_infos, args, true);
 
   // 再帰的に実行
@@ -108,7 +113,9 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
       if (!args->show_hidden && sorted_infos[i]->path_name[0] == '.') {
         continue;
       }
-      exec_ls(sorted_infos[i]->stat_path, args, true, true);
+      if (exec_ls(sorted_infos[i]->stat_path, args, true, true)) {
+        exit_code = 1;
+      }
     }
   }
 
@@ -123,4 +130,6 @@ void  exec_ls(char *path, Args *args, bool print_path, bool endline) {
   }
   free(sorted_infos[files_len]);
   free(sorted_infos);
+
+  return exit_code;
 }
