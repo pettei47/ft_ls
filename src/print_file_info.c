@@ -23,8 +23,9 @@ void print_time(time_t ftime)
 	for (i = 4; i < 11; ++i)
 		ft_putchar_fd(long_string[i], 1);
 
-  int six_months = ((365 / 2) * 86400);
-  if (ftime + six_months > time(NULL))
+  time_t six_months = ((365 / 2) * 86400);
+  time_t now = time(NULL);
+  if (ftime < now && now < ftime + six_months)
     for (i = 11; i < 16; ++i)
 			ft_putchar_fd(long_string[i], 1);
 	else {
