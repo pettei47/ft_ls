@@ -1,2 +1,3 @@
-ft_ls: invalid option -- X
-usage: ft_ls [-Ralrst] [file ...]
+childdir
+link_to_link
+samplefile.txt

@@ -14,6 +14,7 @@ FAILED=0
 cd ${TEST_DATA_DIR}
 mkdir no_permission_dir
 chmod 000 no_permission_dir
+ls ${OPTION} &> ${EXPECTS_DIR}/${TEST_NAME}
 ../../ft_ls ${OPTION} &> ${OUTPUTS_DIR}/${TEST_NAME}_output
 chmod 644 no_permission_dir
 rm -rf no_permission_dir

@@ -1,6 +1,6 @@
-total 40
-32 file_size_over10000.txt
+total 20
+16 file_size_over10000.txt
  0 symbolic_link_different_dir
  0 symbolic_link_same_dir
  0 testdir
- 8 textfile.txt
+ 4 textfile.txt

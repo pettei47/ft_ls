@@ -12,6 +12,7 @@ OPTION="-r"
 FAILED=0
 
 cd ${TEST_DATA_DIR}
+ls ${OPTION} &> ${EXPECTS_DIR}/${TEST_NAME}
 ../../ft_ls ${OPTION} &> ${OUTPUTS_DIR}/${TEST_NAME}_output
 diff ${OUTPUTS_DIR}/${TEST_NAME}_output ${EXPECTS_DIR}/${TEST_NAME} > ${LOGS_DIR}/${TEST_NAME}.log
 if [ $? -eq 0 ]; then

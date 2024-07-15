@@ -1,19 +1,19 @@
-ft_ls: x: No such file or directory
-ft_ls: y: No such file or directory
-ft_ls: z: No such file or directory
+ls: cannot access 'z': No such file or directory
+ls: cannot access 'x': No such file or directory
+ls: cannot access 'y': No such file or directory
 0 symbolic_link_different_dir
-8 textfile.txt
+4 textfile.txt
 
 .:
-total 40
-32 file_size_over10000.txt
+total 20
+16 file_size_over10000.txt
  0 symbolic_link_different_dir
  0 symbolic_link_same_dir
  0 testdir
- 8 textfile.txt
+ 4 textfile.txt
 
 testdir:
-total 8
+total 4
 0 childdir
 0 link_to_link
-8 samplefile.txt
+4 samplefile.txt

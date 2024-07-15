@@ -1,3 +1,4 @@
+.:
 file_size_over10000.txt
 no_permission_dir
 symbolic_link_different_dir
@@ -6,7 +7,7 @@ testdir
 textfile.txt
 
 ./no_permission_dir:
-ft_ls: ./no_permission_dir: Permission denied
+ls: reading directory './no_permission_dir': Operation not permitted
 
 ./testdir:
 childdir
