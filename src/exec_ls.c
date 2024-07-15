@@ -10,7 +10,11 @@ char *get_stat_path(char *path, char *name) {
 
 int exec_ls(char *path, Args *args, bool print_path, bool endline) {
   int exit_code = 0;
+  errno = 0;
   DIR *dp = opendir(path);
+  if (errno != 0) {
+    exit_code = 1;
+  }
 
   File *head = (File *)malloc(sizeof(File));
   head->path_name = NULL;
@@ -19,12 +23,11 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
 
   File *current = head;
   struct dirent *ent;
-  while (dp != NULL && (ent = readdir(dp))) {
+  while (exit_code == 0 && (ent = readdir(dp))) {
     char *name = dp == NULL ? path : ent->d_name;
     struct stat *st = (struct stat *)malloc(sizeof(struct stat));
     File *f = (File *)malloc(sizeof(File));
     f->next = NULL;
-
     f->stat_path = dp == NULL ? ft_strdup(path) : get_stat_path(path, ent->d_name);
     lstat(f->stat_path, st);
     f->stat = st;
@@ -44,6 +47,9 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
   }
 
   if (dp != NULL) closedir(dp);
+  if (errno != 0) {
+    exit_code = 1;
+  }
 
   // stats to file info
   int files_len = 0;
@@ -89,12 +95,11 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
     ft_putstr_fd(path, 1);
     ft_putendl_fd(":", 1);
   }
-  if (dp == NULL) {
-    ft_putstr_fd("ft_ls: ", 2);
+  if (exit_code) {
+    ft_putstr_fd("ls: reading directory '", 2);
     ft_putstr_fd(path, 2);
-    ft_putstr_fd(": ", 2);
+    ft_putstr_fd("': ", 2);
     ft_putendl_fd(strerror(errno), 2);
-    exit_code = 1;
   }
   print_file_info(sorted_infos, args, true);
 

@@ -33,8 +33,8 @@ if [ ${SKIP_LEAK_CHECK} ]; then
   exit ${FAILED}
 fi
 
-valgrind --log-file="${LOGS_DIR}/${TEST_NAME}_leaks.log" --leak-check=full --error-exitcode=1 ../../ft_ls ${OPTION} &> /dev/null
-if [ $? -eq 0 ]; then
+valgrind --log-file="${LOGS_DIR}/${TEST_NAME}_leaks.log" --leak-check=full --error-exitcode=2 ../../ft_ls ${OPTION} &> /dev/null
+if [ $? -eq 1 ]; then
   echo -n "[PASS]"
 else
   echo -n "-FAIL-"
