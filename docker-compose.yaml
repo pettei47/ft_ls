@@ -2,4 +2,6 @@ version: '2'
 services:
   ft_ls:
     build: .
-    command: echo ft_ls
+    command: tail -f
+    volumes:
+      - ./:/app
