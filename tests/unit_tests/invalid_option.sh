@@ -7,7 +7,7 @@ OUTPUTS_DIR="../outputs"
 EXPECTS_DIR="../expects"
 LOGS_DIR="../logs"
 
-OPTION="-X"
+OPTION="-j"
 
 FAILED=0
 

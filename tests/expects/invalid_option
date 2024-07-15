@@ -1,3 +1,2 @@
-childdir
-link_to_link
-samplefile.txt
+ls: invalid option -- 'j'
+Try 'ls --help' for more information.
