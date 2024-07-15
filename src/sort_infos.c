@@ -49,7 +49,6 @@ FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
       reversed_infos[i]->group_name = ft_strdup(infos[j]->group_name);
       free(infos[j]->group_name);
       reversed_infos[i]->modified_date = infos[j]->modified_date;
-      // reversed_infos[i]->modified_mtimespec = infos[j]->modified_mtimespec;
       reversed_infos[i]->num_of_block = infos[j]->num_of_block;
       reversed_infos[i]->num_of_hard_link = infos[j]->num_of_hard_link;
 
