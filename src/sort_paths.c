@@ -57,17 +57,17 @@ Paths *sort_paths(char **paths, bool t, bool r) {
         closedir(dir);
         checked_paths[checked_path_len++] = ft_strdup(paths[i]);
       } else {
-        ft_putstr_fd("ft_ls: ", 2);
+        ft_putstr_fd("ls: cannot access '", 2);
         ft_putstr_fd(paths[i], 2);
-        ft_putstr_fd(": ", 2);
+        ft_putstr_fd("': ", 2);
         ft_putendl_fd(strerror(errno), 2);
       }
     } else if (stat_success == 0) {
       checked_files[checked_file_len++] = ft_strdup(paths[i]);
     } else {
-      ft_putstr_fd("ft_ls: ", 2);
+      ft_putstr_fd("ls: cannot access '", 2);
       ft_putstr_fd(paths[i], 2);
-      ft_putstr_fd(": ", 2);
+      ft_putstr_fd("': ", 2);
       ft_putendl_fd(strerror(errno), 2);
     }
     free(st);
