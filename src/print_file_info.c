@@ -78,7 +78,6 @@ void print_file_info(FileInfo **infos, Args *args, bool is_dir) {
     max_bytes_len = max(max_bytes_len, ft_strlen(bytes_str));
     free(bytes_str);
   }
-  max_bytes_len += is_dir ? 0 : 1;
 
   for (int i = 0; infos[i]; i++) {
     if (infos[i]->path_name[0] == '.' && !show_hidden) {
