@@ -27,7 +27,7 @@ int main(int argc, char** argv) {
   for (int i = 0; sorted_paths->paths[i]; i++) {
     int exec_exit_code = exec_ls(
       sorted_paths->paths[i],
-      args, arg_paths_count > 1,
+      args, arg_paths_count > 1 || args->recursive,
       sorted_paths->files[0] || i > 0
     );
     if (!exit_code) {
