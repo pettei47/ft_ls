@@ -25,7 +25,7 @@ if [ ${SKIP_LEAK_CHECK} ]; then
   exit ${FAILED}
 fi
 
-leaks -q -atExit -- ../../ft_ls &> ${LOGS_DIR}/${TEST_NAME}_leaks.log
+valgrind --log-file="${LOGS_DIR}/${TEST_NAME}_leaks.log" --leak-check=full --error-exitcode=1 ../../ft_ls &> /dev/null
 if [ $? -eq 0 ]; then
   echo -n "[PASS]"
 else

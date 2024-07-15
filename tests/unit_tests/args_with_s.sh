@@ -27,8 +27,8 @@ if [ ${SKIP_LEAK_CHECK} ]; then
   exit ${FAILED}
 fi
 
-leaks -q -atExit -- ../../ft_ls ${OPTION} testdir z textfile.txt . x symbolic_link_different_dir y &> ${LOGS_DIR}/${TEST_NAME}_leaks.log
-if [ $? -eq 0 ]; then
+valgrind --log-file="${LOGS_DIR}/${TEST_NAME}_leaks.log" --leak-check=full --error-exitcode=2 ../../ft_ls ${OPTION} testdir z textfile.txt . x symbolic_link_different_dir y &> /dev/null
+if [ $? -eq 1 ]; then
   echo -n "[PASS]"
 else
   echo -n "-FAIL-"
