@@ -10,7 +10,6 @@ Args* parse_args(int argc, char** argv) {
   parsed_args->show_hidden = false;
   parsed_args->show_blocks = false;
 
-  bool acceptable_options = true;
   int count_paths = 0;
   int start_path_number = 0;
   for (int i = 1; argv[i]; i++)
@@ -22,7 +21,7 @@ Args* parse_args(int argc, char** argv) {
       return parsed_args;
     }
 
-    if(acceptable_options && arg[0] == '-') {
+    if(arg[0] == '-') {
       parsed_args->recursive = ft_strchr(arg, 'R') != 0;
       parsed_args->show_hidden = ft_strchr(arg, 'a') != 0;
       parsed_args->long_style = ft_strchr(arg, 'l') != 0;
@@ -40,7 +39,6 @@ Args* parse_args(int argc, char** argv) {
         }
       }
     } else {
-      acceptable_options = false;
       if (start_path_number == 0) {
         start_path_number = i;
       }
