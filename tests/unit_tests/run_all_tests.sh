@@ -35,7 +35,6 @@ if [ $? -ne 0 ]; then
 fi
 bash ${TESTS_DIR}/all_options.sh
 if [ $? -ne 0 ]; then
-  echo "all_options.sh failed"
   FAILED_TESTS=$((FAILED_TESTS + 1))
 fi
 bash ${TESTS_DIR}/invalid_option.sh
