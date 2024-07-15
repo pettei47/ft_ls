@@ -18,13 +18,9 @@ int mt_cmp(char *s1, char *s2) {
 
   stat(s1, &st1);
   stat(s2, &st2);
-  time_t diff_tv_sec = st1.st_mtimespec.tv_sec - st2.st_mtimespec.tv_sec;
-  long diff_tv_nsec = st1.st_mtimespec.tv_nsec - st2.st_mtimespec.tv_nsec;
+  time_t diff_tv_sec = st1.st_mtime - st2.st_mtime;
 
-  if (diff_tv_sec != 0) {
-    return diff_tv_sec;
-  }
-  return diff_tv_nsec;
+  return diff_tv_sec;
 }
 
 Paths *sort_paths(char **paths, bool t, bool r) {

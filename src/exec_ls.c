@@ -68,7 +68,6 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
     infos[i]->bytes = c->stat->st_size;
     infos[i]->num_of_block = c->stat->st_blocks;
     infos[i]->num_of_hard_link = c->stat->st_nlink;
-    infos[i]->modified_mtimespec = c->stat->st_mtimespec;
     infos[i]->modified_date = c->stat->st_mtime;
     infos[i]->group_name = ft_strdup(getgrgid(c->stat->st_gid)->gr_name);
     infos[i]->owner_name = ft_strdup(getpwuid(c->stat->st_uid)->pw_name);

@@ -52,7 +52,6 @@ typedef struct s_file_info
   int bytes;
   int num_of_block;
   int num_of_hard_link;
-  struct timespec modified_mtimespec;
   time_t modified_date;
   char *owner_name;
   char *group_name;

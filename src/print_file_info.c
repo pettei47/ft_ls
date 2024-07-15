@@ -92,11 +92,11 @@ void print_file_info(FileInfo **infos, Args *args, bool is_dir) {
                   : infos[i]->file_mode == S_IFLNK ? "l" : "-", 1);
       ft_putstr_fd(infos[i]->permission, 1);
       ft_putstr_fd(" ", 1);
-      print_align_right_number(infos[i]->num_of_hard_link, max_digit_of_hard_links + 1);
+      print_align_right_number(infos[i]->num_of_hard_link, max_digit_of_hard_links);
       ft_putstr_fd(" ", 1);
-      print_align_left(infos[i]->owner_name, max_user_name_len + 1);
+      print_align_left(infos[i]->owner_name, max_user_name_len);
       ft_putstr_fd(" ", 1);
-      print_align_left(infos[i]->group_name, max_group_name_len + 1);
+      print_align_left(infos[i]->group_name, max_group_name_len);
       ft_putstr_fd(" ", 1);
       print_align_right_number(infos[i]->bytes, max_bytes_len);
       ft_putstr_fd(" ", 1);
