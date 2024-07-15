@@ -28,17 +28,6 @@ Paths *sort_paths(char **paths, bool t, bool r) {
   for (int i = 0; paths[i]; i++) {
     ++len;
   }
-  // 基本はascii順
-  for (int i = 0; i < len - 1; i++) {
-    for (int j = i + 1; j < len; j++) {
-      if (ft_strcmp(paths[i], paths[j]) > 0) {
-        char *tmp = paths[j];
-        paths[j] = paths[i];
-        paths[i] = tmp;
-      }
-    }
-  }
-
   char **checked_paths = (char **)malloc(sizeof(char *) * (len + 1));
   checked_paths[len] = NULL;
 
@@ -77,6 +66,17 @@ Paths *sort_paths(char **paths, bool t, bool r) {
   }
   for (int i = checked_path_len; i < len; i++) {
     checked_paths[i] = NULL;
+  }
+
+  // 基本はascii順
+  for (int i = 0; i < checked_path_len - 1; i++) {
+    for (int j = i + 1; j < checked_path_len; j++) {
+      if (ft_strcmp(checked_paths[i], checked_paths[j]) > 0) {
+        char *tmp = checked_paths[j];
+        checked_paths[j] = checked_paths[i];
+        checked_paths[i] = tmp;
+      }
+    }
   }
 
   // tがあれば更新時間順
