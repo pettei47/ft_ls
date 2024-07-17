@@ -12,7 +12,7 @@ Args* parse_args(int argc, char** argv) {
 
   int count_paths = 0;
   int start_path_number = 0;
-  for (int i = 1; argv[i]; i++)
+  for (int i = 1; i < argc; i++)
   {
     char *arg = argv[i];
     if(ft_strlen(arg) == 0) {
@@ -55,6 +55,9 @@ Args* parse_args(int argc, char** argv) {
 
   parsed_args->paths = (char **)malloc(sizeof(char *) * (count_paths + 1));
   for (int i = start_path_number; i < argc; i++) {
+    if (argv[i][0] == '-') {
+      continue;
+    }
     parsed_args->paths[i - start_path_number] = ft_strdup(argv[i]);
   }
   parsed_args->paths[count_paths] = NULL;
