@@ -32,6 +32,9 @@ if [ ${FAILED} -eq 1 ]; then
   echo
   echo "<<output>>"
   cat ${OUTPUTS_DIR}/${TEST_NAME}_output
+  echo
+  echo "<<expect>>"
+  cat ${EXPECTS_DIR}/${TEST_NAME}
 fi
 
 if [ ${SKIP_LEAK_CHECK} ]; then
