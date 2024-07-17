@@ -25,6 +25,15 @@ else
 fi
 echo " test: ${TEST_NAME}"
 
+if [ ${FAILED} -eq 1 ]; then
+  echo "===diff result==="
+  echo "<<diff>>"
+  cat ${LOGS_DIR}/${TEST_NAME}.log
+  echo
+  echo "<<output>>
+  cat ${OUTPUTS_DIR}/${TEST_NAME}_output
+fi
+
 if [ ${SKIP_LEAK_CHECK} ]; then
   chmod 644 no_permission_dir
   rm -rf no_permission_dir
