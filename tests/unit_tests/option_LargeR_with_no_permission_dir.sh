@@ -16,10 +16,6 @@ mkdir no_permission_dir
 chmod 000 no_permission_dir
 ls ${OPTION} &> ${EXPECTS_DIR}/${TEST_NAME}
 ../../ft_ls ${OPTION} &> ${OUTPUTS_DIR}/${TEST_NAME}_output
-chmod 644 no_permission_dir
-rm -rf no_permission_dir
-touch -t 204201011200.00 .
-touch -t 204201021200.00 ..
 diff ${OUTPUTS_DIR}/${TEST_NAME}_output ${EXPECTS_DIR}/${TEST_NAME} > ${LOGS_DIR}/${TEST_NAME}.log
 if [ $? -eq 0 ]; then
   echo -n "[PASS]"
@@ -30,6 +26,10 @@ fi
 echo " test: ${TEST_NAME}"
 
 if [ ${SKIP_LEAK_CHECK} ]; then
+  chmod 644 no_permission_dir
+  rm -rf no_permission_dir
+  touch -t 204201011200.00 .
+  touch -t 204201021200.00 ..
   exit ${FAILED}
 fi
 
@@ -40,6 +40,10 @@ else
   echo -n "-FAIL-"
   FAILED=1
 fi
+chmod 644 no_permission_dir
+rm -rf no_permission_dir
+touch -t 204201011200.00 .
+touch -t 204201021200.00 ..
 echo " test: ${TEST_NAME} leak check"
 
 exit ${FAILED}
