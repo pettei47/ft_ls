@@ -30,7 +30,7 @@ if [ ${FAILED} -eq 1 ]; then
   echo "<<diff>>"
   cat ${LOGS_DIR}/${TEST_NAME}.log
   echo
-  echo "<<output>>
+  echo "<<output>>"
   cat ${OUTPUTS_DIR}/${TEST_NAME}_output
 fi
 
