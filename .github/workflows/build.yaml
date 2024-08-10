@@ -1,9 +1,9 @@
-name: RUN_TESTS
+name: BUILD_CHECK
 
 on: push
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
