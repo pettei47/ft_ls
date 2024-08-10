@@ -8,14 +8,27 @@ int mtime_cmp(FileInfo *info1, FileInfo *info2) {
   return diff_tv_sec;
 }
 
+char *ft_strlower(char *str) {
+  char *lower = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
+  for (int i = 0; str[i]; i++) {
+    lower[i] = ft_tolower(str[i]);
+  }
+  lower[ft_strlen(str)] = '\0';
+  return lower;
+}
+
 FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
   for (int i = 0; i < len - 1; i++) {
     for (int j = i + 1; j < len; j++) {
-      if (ft_strcmp(infos[i]->path_name, infos[j]->path_name) > 0) {
+      char *path_name1 = infos[i]->path_name[0] == '.' ? ft_strlower(infos[i]->path_name + 1) : ft_strlower(infos[i]->path_name);
+      char *path_name2 = infos[j]->path_name[0] == '.' ? ft_strlower(infos[j]->path_name + 1) : ft_strlower(infos[j]->path_name);
+      if (ft_strcmp(path_name1, path_name2) > 0) {
         FileInfo *tmp = infos[j];
         infos[j] = infos[i];
         infos[i] = tmp;
       }
+      free(path_name1);
+      free(path_name2);
     }
   }
   if (t) {
