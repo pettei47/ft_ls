@@ -14,6 +14,7 @@ ls textfile.txt &> ${EXPECTS_DIR}/${TEST_NAME}
 ../../ft_ls textfile.txt &> ${OUTPUTS_DIR}/${TEST_NAME}_output
 diff ${OUTPUTS_DIR}/${TEST_NAME}_output ${EXPECTS_DIR}/${TEST_NAME} > ${LOGS_DIR}/${TEST_NAME}.log
 if [ $? -eq 0 ]; then
+  rm ${LOGS_DIR}/${TEST_NAME}.log
   echo -n "[PASS]"
 else
   echo -n "-FAIL-"
@@ -27,6 +28,7 @@ fi
 
 valgrind --log-file="${LOGS_DIR}/${TEST_NAME}_leaks.log" --leak-check=full --error-exitcode=1 ../../ft_ls textfile.txt &> /dev/null
 if [ $? -eq 0 ]; then
+  rm ${LOGS_DIR}/${TEST_NAME}_leaks.log
   echo -n "[PASS]"
 else
   echo -n "-FAIL-"

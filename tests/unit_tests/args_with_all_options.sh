@@ -29,6 +29,7 @@ sed -e "s/12月/Dec/g" -i ${EXPECTS_DIR}/${TEST_NAME}
 # 空白の出方が謎仕様すぎるので、-wをつけて無視する
 diff -w ${OUTPUTS_DIR}/${TEST_NAME}_output ${EXPECTS_DIR}/${TEST_NAME} > ${LOGS_DIR}/${TEST_NAME}.log
 if [ $? -eq 0 ]; then
+  rm ${LOGS_DIR}/${TEST_NAME}.log
   echo -n "[PASS]"
 else
   echo -n "-FAIL-"
@@ -42,6 +43,7 @@ fi
 
 valgrind --log-file="${LOGS_DIR}/${TEST_NAME}_leaks.log" --leak-check=full --error-exitcode=2 ../../ft_ls ${OPTION} testdir z textfile.txt . x symbolic_link_different_dir y &> /dev/null
 if [ $? -eq 1 ]; then
+  rm ${LOGS_DIR}/${TEST_NAME}_leaks.log
   echo -n "[PASS]"
 else
   echo -n "-FAIL-"
