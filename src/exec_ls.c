@@ -96,7 +96,7 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
     ft_putendl_fd(":", 1);
   }
   if (exit_code) {
-    ft_putstr_fd("ls: reading directory '", 2);
+    ft_putstr_fd("ls: cannot open directory '", 2);
     ft_putstr_fd(path, 2);
     ft_putstr_fd("': ", 2);
     ft_putendl_fd(strerror(errno), 2);
