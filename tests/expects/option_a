@@ -1,8 +1,0 @@
-.
-..
-.hidden_file
-file_size_over10000.txt
-symbolic_link_different_dir
-symbolic_link_same_dir
-testdir
-textfile.txt

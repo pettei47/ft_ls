@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
+#    By: tkitagaw <tkitagaw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/07/06 07:44:31 by teppei           ###   ########.fr        #
+#    Updated: 2024/08/10 16:25:02 by tkitagaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ DEBUGGER_DIR = obj/debugger
 
 TEST_OUTOUT_DIR = tests/outputs
 TEST_LOG_DIR = tests/logs
+TEST_EXPECTS_DIR = tests/expects
 
 all: $(OBJDIR) ${DEBUGGER_DIR} $(NAME)
 
@@ -68,10 +69,10 @@ cl: all clean
 run: all
 	./$(NAME)
 
-test: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR)
+test: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR) $(TEST_EXPECTS_DIR)
 	@bash ./tests/unit_tests/run_all_tests.sh
 
-test-%: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR)
+test-%: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR) $(TEST_EXPECTS_DIR)
 	@bash ./tests/unit_tests/${@:test-%=%}.sh
 
 $(TEST_OUTOUT_DIR):
@@ -79,5 +80,8 @@ $(TEST_OUTOUT_DIR):
 
 $(TEST_LOG_DIR):
 	@mkdir $(TEST_LOG_DIR)
+
+$(TEST_EXPECTS_DIR):
+	@mkdir $(TEST_EXPECTS_DIR)
 
 .PHONY: all clean fclean re cl run test test-%
