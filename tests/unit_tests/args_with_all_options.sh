@@ -13,6 +13,18 @@ FAILED=0
 
 cd ${TEST_DATA_DIR}
 ls ${OPTION} testdir z textfile.txt . x symbolic_link_different_dir y &> ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/ 1月/Jan/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/ 2月/Feb/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/ 3月/Mar/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/ 4月/Apr/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/ 5月/May/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/ 6月/Jun/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/ 7月/Jul/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/ 8月/Aug/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/ 9月/Sep/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/10月/Oct/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/11月/Nov/g" -i ${EXPECTS_DIR}/${TEST_NAME}
+sed -e "s/12月/Dec/g" -i ${EXPECTS_DIR}/${TEST_NAME}
 ../../ft_ls ${OPTION} testdir z textfile.txt . x symbolic_link_different_dir y &> ${OUTPUTS_DIR}/${TEST_NAME}_output
 # 空白の出方が謎仕様すぎるので、-wをつけて無視する
 diff -w ${OUTPUTS_DIR}/${TEST_NAME}_output ${EXPECTS_DIR}/${TEST_NAME} > ${LOGS_DIR}/${TEST_NAME}.log
