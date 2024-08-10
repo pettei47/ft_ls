@@ -43,7 +43,7 @@ if [ $? -ne 0 ]; then
 fi
 echo ""
 echo "dir args test"
-bash ${TESTS_DIR}/invalid_args_order.sh
+bash ${TESTS_DIR}/option_after_agrs.sh
 if [ $? -ne 0 ]; then
   FAILED_TESTS=$((FAILED_TESTS + 1))
 fi

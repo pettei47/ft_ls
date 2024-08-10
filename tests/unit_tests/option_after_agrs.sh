@@ -1,13 +1,13 @@
 #!/bin/bash
 
-TEST_NAME="invalid_args_order"
+TEST_NAME="option_after_agrs"
 TEST_DIR="tests"
 TEST_DATA_DIR="${TEST_DIR}/test_data"
 OUTPUTS_DIR="../outputs"
 EXPECTS_DIR="../expects"
 LOGS_DIR="../logs"
 
-OPTION="-l"
+OPTION="-t"
 
 FAILED=0
 
