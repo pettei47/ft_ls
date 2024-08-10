@@ -6,7 +6,7 @@
 #    By: tkitagaw <tkitagaw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/08/10 16:25:02 by tkitagaw         ###   ########.fr        #
+#    Updated: 2024/08/10 20:25:33 by tkitagaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,16 @@ TEST_LOG_DIR = tests/logs
 TEST_EXPECTS_DIR = tests/expects
 
 all: $(OBJDIR) ${DEBUGGER_DIR} $(NAME)
+
+ci: $(OBJDIR) ${DEBUGGER_DIR}
+	mv ${SRCDIR}/sort_infos.c ${SRCDIR}/sort_infos.c.bak
+	mv ${SRCDIR}/sort_infos_for_ci.c ${SRCDIR}/sort_infos.c
+	@make fclean
+	@make test
+
+revert_ci_src:
+	mv ${SRCDIR}/sort_infos.c ${SRCDIR}/sort_infos_for_ci.c
+	mv ${SRCDIR}/sort_infos.c.bak ${SRCDIR}/sort_infos.c
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
@@ -84,4 +94,4 @@ $(TEST_LOG_DIR):
 $(TEST_EXPECTS_DIR):
 	@mkdir $(TEST_EXPECTS_DIR)
 
-.PHONY: all clean fclean re cl run test test-%
+.PHONY: all ci revert_ci_src clean fclean re cl run test test-%
