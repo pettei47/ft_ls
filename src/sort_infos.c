@@ -1,13 +1,5 @@
 #include "ft_ls.h"
 
-int mtime_cmp(FileInfo *info1, FileInfo *info2) {
-  int diff_tv_sec = info1->modified_date - info2->modified_date;
-  if (diff_tv_sec == 0) {
-    return ft_strcmp(info2->path_name, info1->path_name);
-  }
-  return diff_tv_sec;
-}
-
 char *ft_strlower(char *str) {
   char *lower = (char *)malloc(sizeof(char) * (ft_strlen(str) + 1));
   for (int i = 0; str[i]; i++) {
@@ -15,6 +7,19 @@ char *ft_strlower(char *str) {
   }
   lower[ft_strlen(str)] = '\0';
   return lower;
+}
+
+int mtime_cmp(FileInfo *info1, FileInfo *info2) {
+  int diff_tv_sec = info1->modified_date - info2->modified_date;
+  if (diff_tv_sec == 0) {
+    char *path_name1 = info1->path_name[0] == '.' ? ft_strlower(info1->path_name + 1) : ft_strlower(info1->path_name);
+    char *path_name2 = info2->path_name[0] == '.' ? ft_strlower(info2->path_name + 1) : ft_strlower(info2->path_name);
+    int cmp = ft_strcmp(path_name2, path_name1);
+    free(path_name1);
+    free(path_name2);
+    return cmp;
+  }
+  return diff_tv_sec;
 }
 
 FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
