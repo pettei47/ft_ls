@@ -6,7 +6,7 @@
 #    By: tkitagaw <tkitagaw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/08/10 20:25:33 by tkitagaw         ###   ########.fr        #
+#    Updated: 2024/08/10 20:30:48 by tkitagaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,14 +41,14 @@ TEST_EXPECTS_DIR = tests/expects
 all: $(OBJDIR) ${DEBUGGER_DIR} $(NAME)
 
 ci: $(OBJDIR) ${DEBUGGER_DIR}
-	mv ${SRCDIR}/sort_infos.c ${SRCDIR}/sort_infos.c.bak
-	mv ${SRCDIR}/sort_infos_for_ci.c ${SRCDIR}/sort_infos.c
+	cd ${SRCDIR} && mv sort_infos.c sort_infos.c.bak
+	cd ${SRCDIR} && mv sort_infos_for_ci.c sort_infos.c
 	@make fclean
 	@make test
 
 revert_ci_src:
-	mv ${SRCDIR}/sort_infos.c ${SRCDIR}/sort_infos_for_ci.c
-	mv ${SRCDIR}/sort_infos.c.bak ${SRCDIR}/sort_infos.c
+	cd ${SRCDIR} && mv sort_infos.c sort_infos_for_ci.c
+	cd ${SRCDIR} && mv sort_infos.c.bak sort_infos.c
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
