@@ -88,7 +88,7 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
   FileInfo **sorted_infos = sort_infos(infos, files_len, args->order_by_modified_time, args->reverse);
 
   // 出力する
-  if (print_path) {
+  if (!exit_code && print_path) {
     if (endline) {
       ft_putendl_fd("", 1);
     }
