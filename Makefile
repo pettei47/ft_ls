@@ -6,7 +6,7 @@
 #    By: tkitagaw <tkitagaw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/08/10 20:30:48 by tkitagaw         ###   ########.fr        #
+#    Updated: 2024/08/13 19:30:18 by tkitagaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ ci: $(OBJDIR) ${DEBUGGER_DIR}
 revert_ci_src:
 	cd ${SRCDIR} && mv sort_infos.c sort_infos_for_ci.c
 	cd ${SRCDIR} && mv sort_infos.c.bak sort_infos.c
+	touch ${SRCDIR}/sort_infos.c
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
