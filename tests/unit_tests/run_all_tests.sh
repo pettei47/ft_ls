@@ -37,6 +37,10 @@ bash ${TESTS_DIR}/all_options.sh
 if [ $? -ne 0 ]; then
   FAILED_TESTS=$((FAILED_TESTS + 1))
 fi
+bash ${TESTS_DIR}/multiple_options.sh
+if [ $? -ne 0 ]; then
+  FAILED_TESTS=$((FAILED_TESTS + 1))
+fi
 bash ${TESTS_DIR}/invalid_option.sh
 if [ $? -ne 0 ]; then
   FAILED_TESTS=$((FAILED_TESTS + 1))

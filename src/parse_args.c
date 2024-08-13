@@ -22,12 +22,12 @@ Args* parse_args(int argc, char** argv) {
     }
 
     if(arg[0] == '-') {
-      parsed_args->recursive = ft_strchr(arg, 'R') != 0;
-      parsed_args->show_hidden = ft_strchr(arg, 'a') != 0;
-      parsed_args->long_style = ft_strchr(arg, 'l') != 0;
-      parsed_args->reverse = ft_strchr(arg, 'r') != 0;
-      parsed_args->show_blocks = ft_strchr(arg, 's') != 0;
-      parsed_args->order_by_modified_time = ft_strchr(arg, 't') != 0;
+      parsed_args->recursive |= ft_strchr(arg, 'R') != 0;
+      parsed_args->show_hidden |= ft_strchr(arg, 'a') != 0;
+      parsed_args->long_style |= ft_strchr(arg, 'l') != 0;
+      parsed_args->reverse |= ft_strchr(arg, 'r') != 0;
+      parsed_args->show_blocks |= ft_strchr(arg, 's') != 0;
+      parsed_args->order_by_modified_time |= ft_strchr(arg, 't') != 0;
       for (int i = 1; arg[i]; i++) {
         if(!ft_strchr("Ralrst", arg[i])) {
           parsed_args->paths = NULL;
