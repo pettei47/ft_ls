@@ -24,9 +24,9 @@ void print_time(time_t ftime)
 		ft_putchar_fd(long_string[i], 1);
 
   time_t revolution_period = (365 * 86400) + (5 * 3600) + (48 * 60) + 46;
-  time_t six_months = revolution_period / 2;
+  time_t half_year = revolution_period / 2;
   time_t now = time(NULL);
-  if (ftime < now && now < ftime + six_months)
+  if (ftime < now && now < ftime + half_year)
     for (i = 11; i < 16; ++i)
 			ft_putchar_fd(long_string[i], 1);
 	else {
