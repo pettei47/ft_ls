@@ -59,6 +59,8 @@ typedef struct s_file_info
 
 Args      *parse_args(int argc, char **argv);
 Paths     *sort_paths(char **paths, bool t, bool r);
+File      *get_file_stat(Args *args, char *path, DIR *dp, struct dirent *ent);
+FileInfo  **get_file_infos(File *head, int files_len);
 int       exec_ls(char *path, Args *args, bool print_path, bool endline);
 int       exec_ls_files(char **files, Args *args);
 char      *get_stat_path(char *path, char *name);
