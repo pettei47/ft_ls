@@ -60,13 +60,15 @@ typedef struct s_file_info
 Args      *parse_args(int argc, char **argv);
 Paths     *sort_paths(char **paths, bool t, bool r);
 int       exec_ls(char *path, Args *args, bool print_path, bool endline);
-void      exec_ls_files(char **files, Args *args);
+int       exec_ls_files(char **files, Args *args);
 char      *get_stat_path(char *path, char *name);
 char      *convert_permission(int mode);
 FileInfo  **sort_infos(FileInfo **infos, int len, bool t, bool r);
 void      print_file_info(FileInfo **infos, Args *args, bool is_dir);
 void      print_align_left(char *str, int width);
 void      print_align_right_number(int num, int width);
+void      free_files(File *head);
+void      free_file_infos(FileInfo **infos);
 
 // debugger
 void      print_args(Args *args);

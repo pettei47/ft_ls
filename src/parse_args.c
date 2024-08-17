@@ -2,6 +2,10 @@
 
 Args* parse_args(int argc, char** argv) {
   Args *parsed_args = (Args*)malloc(sizeof(Args));
+  if (!parsed_args) {
+    perror("malloc failed");
+    return NULL;
+  }
 
   parsed_args->long_style = false;
   parsed_args->order_by_modified_time = false;
@@ -48,12 +52,26 @@ Args* parse_args(int argc, char** argv) {
 
   if (count_paths == 0) {
     parsed_args->paths = (char **)malloc(sizeof(char *) * 2);
+    if (!parsed_args->paths) {
+      perror("malloc failed");
+      return parsed_args;
+    }
     parsed_args->paths[0] = ft_strdup(".");
+    if (!parsed_args->paths[0]) {
+      free(parsed_args->paths);
+      parsed_args->paths = NULL;
+      perror("malloc failed");
+      return parsed_args;
+    }
     parsed_args->paths[1] = NULL;
     return parsed_args;
   }
 
   parsed_args->paths = (char **)malloc(sizeof(char *) * (count_paths + 1));
+  if (!parsed_args->paths) {
+    perror("malloc failed");
+    return parsed_args;
+  }
   for (int i = start_path_number; i < argc; i++) {
     if (argv[i][0] == '-') {
       continue;

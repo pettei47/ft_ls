@@ -32,32 +32,34 @@ FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
 
   if (r) {
     FileInfo **reversed_infos = (FileInfo **)malloc(sizeof(FileInfo) * (len + 1));
+    if (!reversed_infos) {
+      return NULL;
+    }
     reversed_infos[len] = NULL;
 
     for (int i = 0; i < len; i++) {
       reversed_infos[i] = (FileInfo *)malloc(sizeof(FileInfo));
-
+      if (!reversed_infos[i]) {
+        free_file_infos(reversed_infos);
+        return NULL;
+      }
       int j = len - i - 1;
       reversed_infos[i]->bytes = infos[j]->bytes;
       reversed_infos[i]->file_mode = infos[j]->file_mode;
       reversed_infos[i]->path_name = ft_strdup(infos[j]->path_name);
-      free(infos[j]->path_name);
       reversed_infos[i]->stat_path = ft_strdup(infos[j]->stat_path);
-      free(infos[j]->stat_path);
       reversed_infos[i]->permission = ft_strdup(infos[j]->permission);
-      free(infos[j]->permission);
       reversed_infos[i]->owner_name = ft_strdup(infos[j]->owner_name);
-      free(infos[j]->owner_name);
       reversed_infos[i]->group_name = ft_strdup(infos[j]->group_name);
-      free(infos[j]->group_name);
       reversed_infos[i]->modified_date = infos[j]->modified_date;
       reversed_infos[i]->num_of_block = infos[j]->num_of_block;
       reversed_infos[i]->num_of_hard_link = infos[j]->num_of_hard_link;
-
-      free(infos[j]);
+      if (!reversed_infos[i]->path_name || !reversed_infos[i]->stat_path || !reversed_infos[i]->permission || !reversed_infos[i]->owner_name || !reversed_infos[i]->group_name) {
+        free_file_infos(reversed_infos);
+        return NULL;
+      }
     }
-    free(infos[len]);
-    free(infos);
+    free_file_infos(infos);
     return reversed_infos;
   }
   return infos;
