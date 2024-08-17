@@ -1,31 +1,9 @@
 #include "ft_ls.h"
 
-char *get_stat_path(char *path, char *name) {
-  char *dir_path = ft_strjoin(path, "/");
-  if (!dir_path) {
-    return NULL;
-  }
-  char *stat_path = ft_strjoin(dir_path, name);
-  if (!stat_path) {
-    free(dir_path);
-    return NULL;
-  }
-  free(dir_path);
-  return stat_path;
-}
-
-int exec_ls(char *path, Args *args, bool print_path, bool endline) {
-  int exit_code = 0;
-  errno = 0;
-  DIR *dp = opendir(path);
-  if (errno != 0) {
-    exit_code = 1;
-  }
-
+static File  *get_files_head(Args *args, char *path, DIR *dp, int exit_code) {
   File *head = (File *)malloc(sizeof(File));
   if (!head) {
-    perror("malloc failed");
-    return 42;
+    return NULL;
   }
   head->path_name = NULL;
   head->stat = NULL;
@@ -37,19 +15,30 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
     File  *f = get_file_stat(args, path, dp, ent);
     if (!f) {
       free_files(head);
-      perror("malloc failed");
-      return 42;
+      return NULL;
     }
     current->next = f;
     current = f;
   }
+  return head;
+}
 
-  if (dp != NULL) closedir(dp);
+int exec_ls(char *path, Args *args, bool print_path, bool endline) {
+  int exit_code = 0;
+  errno = 0;
+  DIR *dp = opendir(path);
   if (errno != 0) {
     exit_code = 1;
   }
-
-  // stats to file info
+  File *head = get_files_head(args, path, dp, exit_code);
+  if (dp != NULL) closedir(dp);
+  if (!head) {
+    perror("malloc failed");
+    return 42;
+  }
+  if (errno != 0) {
+    exit_code = 1;
+  }
   int files_len = 0;
   File *f = head->next;
   while (f) {
@@ -62,16 +51,12 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
     perror("malloc failed");
     return 42;
   }
-
-  // sort infos
   FileInfo **sorted_infos = sort_infos(infos, files_len, args->order_by_modified_time, args->reverse);
   if (!sorted_infos) {
     free_file_infos(infos);
     perror("malloc failed");
     return 42;
   }
-
-  // 出力する
   if (!exit_code && print_path) {
     if (endline) {
       ft_putendl_fd("", 1);
@@ -86,8 +71,6 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
     ft_putendl_fd(strerror(errno), 2);
   }
   print_file_info(sorted_infos, args, true);
-
-  // 再帰的に実行
   if (args->recursive) {
     for (int i = 0; sorted_infos[i]; i++) {
       // directoryかどうかを判定
@@ -106,9 +89,6 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
       }
     }
   }
-
-  // free
   free_file_infos(sorted_infos);
-
   return exit_code;
 }

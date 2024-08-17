@@ -63,7 +63,6 @@ File      *get_file_stat(Args *args, char *path, DIR *dp, struct dirent *ent);
 FileInfo  **get_file_infos(File *head, int files_len);
 int       exec_ls(char *path, Args *args, bool print_path, bool endline);
 int       exec_ls_files(char **files, Args *args);
-char      *get_stat_path(char *path, char *name);
 char      *convert_permission(int mode);
 FileInfo  **sort_infos(FileInfo **infos, int len, bool t, bool r);
 void      print_file_info(FileInfo **infos, Args *args, bool is_dir);

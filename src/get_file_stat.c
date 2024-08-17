@@ -1,5 +1,19 @@
 #include "ft_ls.h"
 
+static char *get_stat_path(char *path, char *name) {
+  char *dir_path = ft_strjoin(path, "/");
+  if (!dir_path) {
+    return NULL;
+  }
+  char *stat_path = ft_strjoin(dir_path, name);
+  if (!stat_path) {
+    free(dir_path);
+    return NULL;
+  }
+  free(dir_path);
+  return stat_path;
+}
+
 File  *get_file_stat(Args *args, char *path, DIR *dp, struct dirent *ent) {
   char *name = dp == NULL ? path : ent->d_name;
   File *f = (File *)malloc(sizeof(File));
