@@ -15,9 +15,3 @@ void print_align_left(char *str, int width) {
     ft_putchar_fd(' ', 1);
   }
 }
-
-void print_align_right_number(int num, int width) {
-  char *str = ft_itoa(num);
-  print_align_right(str, width);
-  free(str);
-}

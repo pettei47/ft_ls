@@ -89,7 +89,6 @@ FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
       reversed_infos[i]->num_of_hard_link = infos[j]->num_of_hard_link;
       if (!reversed_infos[i]->path_name || !reversed_infos[i]->stat_path || !reversed_infos[i]->permission || !reversed_infos[i]->owner_name || !reversed_infos[i]->group_name) {
         free_file_infos(reversed_infos);
-        free_file_infos(infos);
         return NULL;
       }
     }

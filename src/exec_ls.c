@@ -84,11 +84,20 @@ int exec_ls(char *path, Args *args, bool print_path, bool endline) {
   }
   print_dir_name(path, print_path, endline, exit_code);
   print_error_message(path, exit_code);
-  print_file_info(sorted_infos, args, true);
+  int print_file_info_result = print_file_info(sorted_infos, args, true);
+  if (print_file_info_result == 42) {
+    free_file_infos(sorted_infos);
+    return 42;
+  }
   if (args->recursive) {
     for (int i = 0; sorted_infos[i]; i++) {
       if (is_skip_recursive(sorted_infos[i], args)) continue;
-      exit_code |= exec_ls(sorted_infos[i]->stat_path, args, true, true);
+      int exec_ls_result = exec_ls(sorted_infos[i]->stat_path, args, true, true);
+      if (exec_ls_result == 42) {
+        free_file_infos(sorted_infos);
+        return 42;
+      }
+      exit_code |= exec_ls_result;
     }
   }
   free_file_infos(sorted_infos);
