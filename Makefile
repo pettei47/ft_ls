@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/08/17 18:07:25 by teppei           ###   ########.fr        #
+#    Updated: 2024/08/17 19:40:00 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRCS		:=	main.c \
 						get_file_stat.c \
 						get_file_infos.c \
 						sort_infos.c \
+						convert_permission.c \
 						print_file_info.c \
 						print_align.c \
 						free.c \
