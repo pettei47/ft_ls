@@ -10,20 +10,25 @@ LOGS_DIR="../logs"
 FAILED=0
 
 cd ${TEST_DATA_DIR}
-ls testdir . z x y &> ${EXPECTS_DIR}/${TEST_NAME}
-../../ft_ls testdir . z x y &> ${OUTPUTS_DIR}/${TEST_NAME}_output
-diff ${OUTPUTS_DIR}/${TEST_NAME}_output ${EXPECTS_DIR}/${TEST_NAME} > ${LOGS_DIR}/${TEST_NAME}.log
-if [ $? -eq 0 ]; then
-  rm ${LOGS_DIR}/${TEST_NAME}.log
-  echo -n "[PASS]"
-else
-  echo -n "-FAIL-"
-  FAILED=1
-fi
-echo " test: ${TEST_NAME}"
 
-if [ ${SKIP_LEAK_CHECK} ]; then
-  exit ${FAILED}
+if [ ${LEAK_CHECK_ONLY} ]; then
+  SKIP_LEAK_CHECK=
+else
+  ls testdir . z x y &> ${EXPECTS_DIR}/${TEST_NAME}
+  ../../ft_ls testdir . z x y &> ${OUTPUTS_DIR}/${TEST_NAME}_output
+  diff ${OUTPUTS_DIR}/${TEST_NAME}_output ${EXPECTS_DIR}/${TEST_NAME} > ${LOGS_DIR}/${TEST_NAME}.log
+  if [ $? -eq 0 ]; then
+    rm ${LOGS_DIR}/${TEST_NAME}.log
+    echo -n "[PASS]"
+  else
+    echo -n "-FAIL-"
+    FAILED=1
+  fi
+  echo " test: ${TEST_NAME}"
+
+  if [ ${SKIP_LEAK_CHECK} ]; then
+    exit ${FAILED}
+  fi
 fi
 
 valgrind --log-file="${LOGS_DIR}/${TEST_NAME}_leaks.log" --leak-check=full --error-exitcode=2 ../../ft_ls testdir . z x y &> /dev/null
