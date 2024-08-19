@@ -109,22 +109,11 @@ Paths *sort_paths(char **paths, bool t, bool r) {
   // 基本はascii順
   for (int i = 0; i < checked_path_len - 1; i++) {
     for (int j = i + 1; j < checked_path_len; j++) {
-      char *path_name1 = checked_paths[i][0] == '.' ? ft_strlower(checked_paths[i] + 1) : ft_strlower(checked_paths[i]);
-      char *path_name2 = checked_paths[j][0] == '.' ? ft_strlower(checked_paths[j] + 1) : ft_strlower(checked_paths[j]);
-      if (!path_name1 || !path_name2) {
-        free(path_name1);
-        free(path_name2);
-        free_strs(checked_files);
-        free_strs(checked_paths);
-        return NULL;
-      }
-      if (ft_strcmp(path_name1, path_name2) > 0) {
+      if (ft_strcmp(checked_paths[i], checked_paths[j]) > 0) {
         char *tmp = checked_paths[j];
         checked_paths[j] = checked_paths[i];
         checked_paths[i] = tmp;
       }
-      free(path_name1);
-      free(path_name2);
     }
   }
 

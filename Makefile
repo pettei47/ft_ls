@@ -6,7 +6,7 @@
 #    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/08/17 19:40:00 by teppei           ###   ########.fr        #
+#    Updated: 2024/08/20 08:27:46 by teppei           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,13 +47,18 @@ all: $(OBJDIR) ${DEBUGGER_DIR} $(NAME)
 ci: $(OBJDIR) ${DEBUGGER_DIR}
 	cd ${SRCDIR} && mv sort_infos.c sort_infos.c.bak
 	cd ${SRCDIR} && mv sort_infos_for_ci.c sort_infos.c
+	cd ${SRCDIR} && mv sort_paths.c sort_paths.c.bak
+	cd ${SRCDIR} && mv sort_paths_for_ci.c sort_paths.c
 	@make fclean
 	@make test
 
 revert_ci_src:
 	cd ${SRCDIR} && mv sort_infos.c sort_infos_for_ci.c
 	cd ${SRCDIR} && mv sort_infos.c.bak sort_infos.c
+	cd ${SRCDIR} && mv sort_paths.c sort_paths_for_ci.c
+	cd ${SRCDIR} && mv sort_paths.c.bak sort_paths.c
 	touch ${SRCDIR}/sort_infos.c
+	touch ${SRCDIR}/sort_paths.c
 
 $(OBJDIR):
 	mkdir $(OBJDIR)
