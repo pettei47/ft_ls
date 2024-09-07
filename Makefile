@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: teppei <teppei@student.42.fr>              +#+  +:+       +#+         #
+#    By: tkitagaw <tkitagaw@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/23 12:46:40 by teppei            #+#    #+#              #
-#    Updated: 2024/08/20 08:27:46 by teppei           ###   ########.fr        #
+#    Updated: 2024/09/07 19:03:29 by tkitagaw         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,10 +89,13 @@ cl: all clean
 run: all
 	./$(NAME)
 
-test: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR) $(TEST_EXPECTS_DIR)
+setup:
+	@bash ./tests/setup.sh
+
+test: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR) $(TEST_EXPECTS_DIR) setup
 	@bash ./tests/unit_tests/run_all_tests.sh
 
-test-%: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR) $(TEST_EXPECTS_DIR)
+test-%: all $(TEST_OUTOUT_DIR) $(TEST_LOG_DIR) $(TEST_EXPECTS_DIR) setup
 	@bash ./tests/unit_tests/${@:test-%=%}.sh
 
 $(TEST_OUTOUT_DIR):
@@ -104,4 +107,4 @@ $(TEST_LOG_DIR):
 $(TEST_EXPECTS_DIR):
 	@mkdir $(TEST_EXPECTS_DIR)
 
-.PHONY: all ci revert_ci_src clean fclean re cl run test test-%
+.PHONY: all ci revert_ci_src clean fclean re cl run setup test test-%
