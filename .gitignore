@@ -4,3 +4,4 @@ ft_ls
 tests/outputs
 tests/logs
 tests/expects
+tests/test_data/ascii_dir
