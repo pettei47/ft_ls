@@ -1,6 +1,7 @@
 #!bin/bash
 
 TESTS_DIR="tests/unit_tests"
+LOGS_DIR="tests/logs"
 
 FAILED_TESTS=0
 
@@ -111,5 +112,7 @@ if [ ${FAILED_TESTS} -eq 0 ]; then
   echo "All tests passed"
 else
   echo "${FAILED_TESTS} tests failed"
+  echo FAIL_LIST:
+  find ${LOGS_DIR} -name "*.log" | cat
   exit 1
 fi
