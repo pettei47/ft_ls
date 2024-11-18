@@ -23,7 +23,8 @@ FileInfo  **get_file_infos(File *head, int files_len) {
     infos[i]->bytes = c->stat->st_size;
     infos[i]->num_of_block = c->stat->st_blocks / 2;
     infos[i]->num_of_hard_link = c->stat->st_nlink;
-    infos[i]->modified_date = c->stat->st_mtime;
+    infos[i]->modified_date_sec = c->stat->st_mtim.tv_sec;
+    infos[i]->modified_date_nsec = c->stat->st_mtim.tv_nsec;
     infos[i]->group_name = ft_strdup(getgrgid(c->stat->st_gid)->gr_name);
     infos[i]->owner_name = ft_strdup(getpwuid(c->stat->st_uid)->pw_name);
     if (!infos[i]->path_name || !infos[i]->stat_path || !infos[i]->group_name || !infos[i]->owner_name) {

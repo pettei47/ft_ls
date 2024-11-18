@@ -13,10 +13,14 @@ char *ft_strlower(char *str) {
 }
 
 int mtime_cmp(FileInfo *info1, char *path_name1, FileInfo *info2, char *path_name2) {
-  int diff_tv_sec = info1->modified_date - info2->modified_date;
-  if (diff_tv_sec == 0) {
+  long long diff_tv_sec = (long long)info1->modified_date_sec - (long long)info2->modified_date_sec;
+  long long diff_tv_nsec = (long long)info1->modified_date_nsec - (long long)info2->modified_date_nsec;
+  if (diff_tv_sec == 0 && diff_tv_nsec == 0) {
     int cmp = ft_strcmp(path_name2, path_name1);
     return cmp;
+  }
+  if (diff_tv_sec == 0) {
+    return diff_tv_nsec;
   }
   return diff_tv_sec;
 }
@@ -84,7 +88,8 @@ FileInfo **sort_infos(FileInfo **infos, int len, bool t, bool r) {
       reversed_infos[i]->permission = ft_strdup(infos[j]->permission);
       reversed_infos[i]->owner_name = ft_strdup(infos[j]->owner_name);
       reversed_infos[i]->group_name = ft_strdup(infos[j]->group_name);
-      reversed_infos[i]->modified_date = infos[j]->modified_date;
+      reversed_infos[i]->modified_date_sec = infos[j]->modified_date_sec;
+      reversed_infos[i]->modified_date_nsec = infos[j]->modified_date_nsec;
       reversed_infos[i]->num_of_block = infos[j]->num_of_block;
       reversed_infos[i]->num_of_hard_link = infos[j]->num_of_hard_link;
       if (!reversed_infos[i]->path_name || !reversed_infos[i]->stat_path || !reversed_infos[i]->permission || !reversed_infos[i]->owner_name || !reversed_infos[i]->group_name) {

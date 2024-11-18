@@ -52,7 +52,8 @@ typedef struct s_file_info
   int bytes;
   int num_of_block;
   int num_of_hard_link;
-  time_t modified_date;
+  time_t modified_date_sec;
+  time_t modified_date_nsec;
   char *owner_name;
   char *group_name;
 } FileInfo;
