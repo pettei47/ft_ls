@@ -115,7 +115,7 @@ static int print_long_style(FileInfo **infos, Args *args, int i, int *max_digits
     ft_putstr_fd(" ", 1);
     print_align_right(bytes_str, max_bytes_len);
     ft_putstr_fd(" ", 1);
-    print_time(infos[i]->modified_date);
+    print_time(infos[i]->modified_date_sec);
     ft_putstr_fd(" ", 1);
     free(num_of_hard_link_str);
     free(bytes_str);
